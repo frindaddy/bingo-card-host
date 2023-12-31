@@ -8,9 +8,8 @@ function App() {
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+name)
             .then((res) => {
-                console.log('Getting Status!2')
                 if (res.data) {
-                    //console.log(res.data);
+                    console.log(res.data);
                     setCardStatus(res.data);
                 }
             }).catch((err) => console.log(err));
