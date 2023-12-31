@@ -26,13 +26,14 @@ function App() {
 
   return (
     <>
-    <h1>Bingo Lyfe 2k24</h1>
+    <h1>Sasma's Hoes Bingo Cards 2k24</h1>
     <table className="card-selector">
         <tr>
             <td onClick={test}>Andrew</td>
             <td>Austin</td>
             <td>Brent</td>
             <td>Jacob</td>
+            <td>Sasma</td>
             <td>Tim</td>
             <td>Trevor</td>
         </tr>
