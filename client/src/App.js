@@ -5,7 +5,7 @@ function App() {
   return (
     <>
     <h1>Bingo Lyfe 2k24</h1>
-    <table>
+    <table className="card-selector">
         <tr>
             <td>Andrew</td>
             <td>Austin</td>
@@ -16,7 +16,7 @@ function App() {
         </tr>
     </table>
     <hr></hr>
-    <table>
+    <table className="bingo-card">
         <tr>
             <td>Entry 1</td>
             <td>Entry 2</td>
