@@ -2,6 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import {FaXmark} from "react-icons/fa";
+
+function test() {
+  alert("test");
+}
 
 function App() {
     const [cardStatus, setCardStatus] = useState();
@@ -24,7 +29,7 @@ function App() {
     <h1>Bingo Lyfe 2k24</h1>
     <table className="card-selector">
         <tr>
-            <td>Andrew</td>
+            <td onClick={test}>Andrew</td>
             <td>Austin</td>
             <td>Brent</td>
             <td>Jacob</td>
@@ -35,7 +40,7 @@ function App() {
     <hr></hr>
     <table className="bingo-card">
         <tr>
-            <td>Entry 1</td>
+            <td onCLick={test}>Entry 1</td>
             <td>Entry 2</td>
             <td>Entry 3</td>
             <td>Entry 4</td>

@@ -1,10 +1,11 @@
 .bingo-card > tr > td {
   border: 1px solid black;
   text-align: center;
-  padding: 8px;
-  margin: 0px;
+  width: 100px;
+  height: 100px;
 }
 
 .card-selector > tr > td {
   padding: 8px;
+  font-size: 30px;
 }
