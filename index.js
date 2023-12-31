@@ -1,15 +1,29 @@
-// server/index.js
-
-const express = require("express");
-
-const PORT = process.env.PORT || 5000;
+const express = require('express');
+const routes = require('./routes/api');
+const path = require("path");
 
 const app = express();
 
-app.get("/api", (req, res) => {
-    res.json({ message: "Hello from server!" });
+const port = process.env.PORT || 5000;
+
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
 });
 
-app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`);
+app.use(express.json());
+
+app.use(express.static(path.join(__dirname, './client/build')));
+
+app.use('/api', routes);
+
+app.use((err, req, res, next) => {
+    console.log(err);
+    next();
+});
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
