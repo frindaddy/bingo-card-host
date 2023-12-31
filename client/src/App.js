@@ -1,7 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 function App() {
+    const [cardStatus, setCardStatus] = useState();
+    const getCardStatus = (name) => {
+        axios.get('api/bingo_card/'+name)
+            .then((res) => {
+                console.log('Getting Status!2')
+                if (res.data) {
+                    //console.log(res.data);
+                    setCardStatus(res.data);
+                }
+            }).catch((err) => console.log(err));
+    }
+
+    useEffect(() => {
+        getCardStatus('trevor');
+    }, []);
+
   return (
     <>
     <h1>Bingo Lyfe 2k24</h1>
