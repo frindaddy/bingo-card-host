@@ -33,9 +33,10 @@ function App() {
             <td>Austin</td>
             <td>Brent</td>
             <td>Jacob</td>
-            <td>Sasma</td>
+            <td>Sasha</td>
             <td>Tim</td>
             <td>Trevor</td>
+            <td>Will</td>
         </tr>
     </table>
     <hr></hr>
