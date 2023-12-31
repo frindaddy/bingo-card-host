@@ -27,3 +27,4 @@ yarn-error.log*
 
 # packages
 .env
+bingo_card_db.sqlite

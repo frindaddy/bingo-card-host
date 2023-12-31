@@ -20,8 +20,22 @@ function App() {
             }).catch((err) => console.log(err));
     }
 
+    const updateCard = (card_name, card_data) => {
+        axios.post('api/update_card/'+card_name, {
+            name: card_name,
+            card: card_data
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     useEffect(() => {
-        getCardStatus('trevor');
+        //getCardStatus('trevor');
+        //updateCard('trevor', 10)
     }, []);
 
   return (
