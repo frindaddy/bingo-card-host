@@ -45,6 +45,7 @@ router.get('/bingo_card/:name', (req, res, next) => {
 
 router.post('/update_card/:name', (req, res, next) => {
     if (req.params.name && req.body) {
+        db.run(`UPDATE cards SET card = ? WHERE name = ?`,[req.body.card, req.params.name]);
         res.json({result: 'working!'})
     } else {
         res.sendStatus(400);
