@@ -36,7 +36,7 @@ function App() {
     }
 
     useEffect(() => {
-        //getCardStatus('trevor');
+        getCardStatus('trevor');
         //updateCard('trevor', 10)
     }, []);
 
