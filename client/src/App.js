@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import cards from './cards.js';
 import {FaXmark} from "react-icons/fa";
 
 function test() {
@@ -10,6 +11,7 @@ function test() {
 
 function App() {
     const [cardStatus, setCardStatus] = useState();
+    const [cardName, setCardName] = useState('andrew');
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+name)
             .then((res) => {
@@ -43,7 +45,7 @@ function App() {
     <h1>Sasma's Hoes Bingo Cards 2k24</h1>
     <table className="card-selector">
         <tr>
-            <td onClick={test}>Andrew</td>
+            <td onClick={() => {setCardName('andrew')}}>Andrew</td>
             <td>Austin</td>
             <td>Brent</td>
             <td>Jacob</td>
@@ -56,7 +58,7 @@ function App() {
     <hr></hr>
     <table className="bingo-card">
         <tr>
-            <td onCLick={test}>Entry 1</td>
+            <td onCLick={test}>{cards[cardName][0]}</td>
             <td>Entry 2</td>
             <td>Entry 3</td>
             <td>Entry 4</td>
