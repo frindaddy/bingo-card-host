@@ -91,7 +91,6 @@ function App() {
                 <td onClick={() => {onTileClicked(18)}}>{cards[cardName][18]}</td>
                 <td onClick={() => {onTileClicked(19)}}>{cards[cardName][19]}</td>
             </tr>
-
             <tr>
                 <td onClick={() => {onTileClicked(20)}}>{cards[cardName][20]}</td>
                 <td onClick={() => {onTileClicked(21)}}>{cards[cardName][21]}</td>
