@@ -51,60 +51,67 @@ function App() {
         }}><div className="square">{cards[cardName][index]}</div></td>
     }
 
+    function getNavBarElement(internal_name, display_name) {
+        return <p className={cardName === internal_name ? 'selected' : ''}
+                  onClick={() => {
+                      switchCard(internal_name)
+                  }}>{display_name}</p>
+    }
+
     return (
         <>
             <h1>Sasma's Hoes Bingo Cards 2k24</h1>
-    <div className="card-selector">
-        <p onClick={() => {switchCard('andrew')}}>Andrew</p>
-        <p onClick={() => {switchCard('austin')}}>Austin</p>
-        <p onClick={() => {switchCard('brent')}}>Brent</p>
-        <p onClick={() => {switchCard('jacob')}}>Jacob</p>
-        <p onClick={() => {switchCard('sasha')}}>Sasha</p>
-        <p onClick={() => {switchCard('tim')}}>Tim</p>
-        <p onClick={() => {switchCard('trevor')}}>Trevor</p>
-        <p onClick={() => {switchCard('will')}}>Will</p>
-    </div>
-    <hr></hr>
-    <table className="bingo-card">
-        <tbody>
-            <tr>
-                {getTableCell(0)}
-                {getTableCell(1)}
-                {getTableCell(2)}
-                {getTableCell(3)}
-                {getTableCell(4)}
-            </tr>
-            <tr>
-                {getTableCell(5)}
-                {getTableCell(6)}
-                {getTableCell(7)}
-                {getTableCell(8)}
-                {getTableCell(9)}
-            </tr>
-            <tr>
-                {getTableCell(10)}
-                {getTableCell(11)}
-                {getTableCell(12)}
-                {getTableCell(13)}
-                {getTableCell(14)}
-            </tr>
-            <tr>
-                {getTableCell(15)}
-                {getTableCell(16)}
-                {getTableCell(17)}
-                {getTableCell(18)}
-                {getTableCell(19)}
-            </tr>
-            <tr>
-                {getTableCell(20)}
-                {getTableCell(21)}
-                {getTableCell(22)}
-                {getTableCell(23)}
-                {getTableCell(24)}
-            </tr>
-        </tbody>
-    </table>
-    </>
+            <div className="card-selector">
+                {getNavBarElement('andrew', 'Andrew')}
+                {getNavBarElement('austin', 'Austin')}
+                {getNavBarElement('brent', 'Brent')}
+                {getNavBarElement('jacob', 'Jacob')}
+                {getNavBarElement('sasha', 'Sasha')}
+                {getNavBarElement('tim', 'Tim')}
+                {getNavBarElement('trevor', 'Trevor')}
+                {getNavBarElement('will', 'Will')}
+            </div>
+            <hr></hr>
+            <table className="bingo-card">
+                <tbody>
+                    <tr>
+                        {getTableCell(0)}
+                        {getTableCell(1)}
+                        {getTableCell(2)}
+                        {getTableCell(3)}
+                        {getTableCell(4)}
+                    </tr>
+                    <tr>
+                        {getTableCell(5)}
+                        {getTableCell(6)}
+                        {getTableCell(7)}
+                        {getTableCell(8)}
+                        {getTableCell(9)}
+                    </tr>
+                    <tr>
+                        {getTableCell(10)}
+                        {getTableCell(11)}
+                        {getTableCell(12)}
+                        {getTableCell(13)}
+                        {getTableCell(14)}
+                    </tr>
+                    <tr>
+                        {getTableCell(15)}
+                        {getTableCell(16)}
+                        {getTableCell(17)}
+                        {getTableCell(18)}
+                        {getTableCell(19)}
+                    </tr>
+                    <tr>
+                        {getTableCell(20)}
+                        {getTableCell(21)}
+                        {getTableCell(22)}
+                        {getTableCell(23)}
+                        {getTableCell(24)}
+                    </tr>
+                </tbody>
+            </table>
+        </>
   );
 }
 
