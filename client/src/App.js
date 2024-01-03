@@ -48,24 +48,22 @@ function App() {
     function getTableCell(index) {
         return <td style={{color: (cardInt & (1 << index)) > 0 ? "red":"white"}} onClick={() => {
             onTileClicked(index)
-        }}>{cards[cardName][index]}</td>
+        }}><div className="square">{cards[cardName][index]}</div></td>
     }
 
     return (
         <>
             <h1>Sasma's Hoes Bingo Cards 2k24</h1>
-    <table className="card-selector">
-        <tr>
-            <td onClick={() => {switchCard('andrew')}}>Andrew</td>
-            <td onClick={() => {switchCard('austin')}}>Austin</td>
-            <td onClick={() => {switchCard('brent')}}>Brent</td>
-            <td onClick={() => {switchCard('jacob')}}>Jacob</td>
-            <td onClick={() => {switchCard('sasha')}}>Sasha</td>
-            <td onClick={() => {switchCard('tim')}}>Tim</td>
-            <td onClick={() => {switchCard('trevor')}}>Trevor</td>
-            <td onClick={() => {switchCard('will')}}>Will</td>
-        </tr>
-    </table>
+    <div className="card-selector">
+        <p onClick={() => {switchCard('andrew')}}>Andrew</p>
+        <p onClick={() => {switchCard('austin')}}>Austin</p>
+        <p onClick={() => {switchCard('brent')}}>Brent</p>
+        <p onClick={() => {switchCard('jacob')}}>Jacob</p>
+        <p onClick={() => {switchCard('sasha')}}>Sasha</p>
+        <p onClick={() => {switchCard('tim')}}>Tim</p>
+        <p onClick={() => {switchCard('trevor')}}>Trevor</p>
+        <p onClick={() => {switchCard('will')}}>Will</p>
+    </div>
     <hr></hr>
     <table className="bingo-card">
         <tbody>

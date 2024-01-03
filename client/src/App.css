@@ -11,23 +11,29 @@ body {
 
 .bingo-card {
   border-collapse: collapse;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .bingo-card > tbody > tr > td {
   border: 1px solid darkgray;
   text-align: center;
   width: 100px;
-  height: 100px;
 }
 
 .card-selector {
   margin-left: auto;
   margin-right: auto;
   max-width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.card-selector > tr > td {
-  padding: 8px;
+.card-selector > p {
+  padding: 6px 8px;
+  margin: 0;
   font-size: 19px;
 }
 
@@ -37,4 +43,8 @@ h1 {
 
 td {
   cursor: pointer;
+}
+
+.square {
+  aspect-ratio: 1/1;
 }
