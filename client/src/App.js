@@ -6,14 +6,14 @@ import cards from './cards.js';
 import {FaXmark} from "react-icons/fa";
 
 function App() {
-    const [cardStatus, setCardStatus] = useState();
+    const [cardInt, setCardInt] = useState();
     const [cardName, setCardName] = useState('andrew');
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+name)
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
-                    setCardStatus(res.data);
+                    setCardName(res.data.name);
+                    setCardInt(res.data.card);
                 }
             }).catch((err) => console.log(err));
     }
@@ -24,7 +24,7 @@ function App() {
             card: card_data
         })
             .then(function (response) {
-                console.log(response);
+                getCardStatus(card_name);
             })
             .catch(function (error) {
                 console.log(error);
@@ -33,7 +33,6 @@ function App() {
 
     useEffect(() => {
         getCardStatus(cardName);
-        //updateCard('trevor', 10)
     }, []);
 
     const switchCard = (player) => {
@@ -42,12 +41,19 @@ function App() {
     }
 
     function onTileClicked(index) {
-        console.log('Toggle '+ cardName + ' tile ' + index);
+        setCardInt(cardInt ^ (1 << index))
+        updateCard(cardName, cardInt ^ (1 << index));
     }
 
-  return (
-    <>
-    <h1>Sasma's Hoes Bingo Cards 2k24</h1>
+    function getTableCell(index) {
+        return <td style={{color: (cardInt & (1 << index)) > 0 ? "red":"white"}} onClick={() => {
+            onTileClicked(index)
+        }}>{cards[cardName][index]}</td>
+    }
+
+    return (
+        <>
+            <h1>Sasma's Hoes Bingo Cards 2k24</h1>
     <table className="card-selector">
         <tr>
             <td onClick={() => {switchCard('andrew')}}>Andrew</td>
@@ -64,39 +70,39 @@ function App() {
     <table className="bingo-card">
         <tbody>
             <tr>
-                <td onClick={()=>{onTileClicked(0)}}>{cards[cardName][0]}</td>
-                <td onClick={()=>{onTileClicked(1)}}>{cards[cardName][1]}</td>
-                <td onClick={()=>{onTileClicked(2)}}>{cards[cardName][2]}</td>
-                <td onClick={()=>{onTileClicked(3)}}>{cards[cardName][3]}</td>
-                <td onClick={()=>{onTileClicked(4)}}>{cards[cardName][4]}</td>
+                {getTableCell(0)}
+                {getTableCell(1)}
+                {getTableCell(2)}
+                {getTableCell(3)}
+                {getTableCell(4)}
             </tr>
             <tr>
-                <td onClick={() => {onTileClicked(5)}}>{cards[cardName][5]}</td>
-                <td onClick={() => {onTileClicked(6)}}>{cards[cardName][6]}</td>
-                <td onClick={() => {onTileClicked(7)}}>{cards[cardName][7]}</td>
-                <td onClick={() => {onTileClicked(8)}}>{cards[cardName][8]}</td>
-                <td onClick={() => {onTileClicked(9)}}>{cards[cardName][9]}</td>
+                {getTableCell(5)}
+                {getTableCell(6)}
+                {getTableCell(7)}
+                {getTableCell(8)}
+                {getTableCell(9)}
             </tr>
             <tr>
-                <td onClick={() => {onTileClicked(10)}}>{cards[cardName][10]}</td>
-                <td onClick={() => {onTileClicked(11)}}>{cards[cardName][11]}</td>
-                <td onClick={() => {onTileClicked(12)}}>{cards[cardName][12]}</td>
-                <td onClick={() => {onTileClicked(13)}}>{cards[cardName][13]}</td>
-                <td onClick={() => {onTileClicked(14)}}>{cards[cardName][14]}</td>
+                {getTableCell(10)}
+                {getTableCell(11)}
+                {getTableCell(12)}
+                {getTableCell(13)}
+                {getTableCell(14)}
             </tr>
             <tr>
-                <td onClick={() => {onTileClicked(15)}}>{cards[cardName][15]}</td>
-                <td onClick={() => {onTileClicked(16)}}>{cards[cardName][16]}</td>
-                <td onClick={() => {onTileClicked(17)}}>{cards[cardName][17]}</td>
-                <td onClick={() => {onTileClicked(18)}}>{cards[cardName][18]}</td>
-                <td onClick={() => {onTileClicked(19)}}>{cards[cardName][19]}</td>
+                {getTableCell(15)}
+                {getTableCell(16)}
+                {getTableCell(17)}
+                {getTableCell(18)}
+                {getTableCell(19)}
             </tr>
             <tr>
-                <td onClick={() => {onTileClicked(20)}}>{cards[cardName][20]}</td>
-                <td onClick={() => {onTileClicked(21)}}>{cards[cardName][21]}</td>
-                <td onClick={() => {onTileClicked(22)}}>{cards[cardName][22]}</td>
-                <td onClick={() => {onTileClicked(23)}}>{cards[cardName][23]}</td>
-                <td onClick={() => {onTileClicked(24)}}>{cards[cardName][24]}</td>
+                {getTableCell(20)}
+                {getTableCell(21)}
+                {getTableCell(22)}
+                {getTableCell(23)}
+                {getTableCell(24)}
             </tr>
         </tbody>
     </table>
