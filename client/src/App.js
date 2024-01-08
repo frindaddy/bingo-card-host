@@ -3,7 +3,6 @@ import './App.css';
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import cards from './cards.js';
-import {FaXmark} from "react-icons/fa";
 
 function App() {
     const [cardInt, setCardInt] = useState();
