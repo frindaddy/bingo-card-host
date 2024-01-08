@@ -40,7 +40,7 @@ const cards = {
         "Someone screw up their Spotify Wrapped by falling asleep/playign something by accident",
         "Jacob pisses his pants",
         "Election year meme makes it to the Popular tab of The Rave",
-        "Brent compaint about something in Denver",
+        "Brent complaint about something in Denver",
         "A member of the group throws up after getting off the NYC Subway when visiting Austin",
         "3+ people have power go out due to weather in Texas",
         "More than 3 significant others",
