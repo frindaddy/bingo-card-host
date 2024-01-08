@@ -23,6 +23,7 @@ body {
   border: 1px solid darkgray;
   text-align: center;
   width: 100px;
+  vertical-align: middle;
 }
 
 .card-selector {
