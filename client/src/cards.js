@@ -57,7 +57,7 @@ const cards = {
 
     "brent":[
         "Trevor refers to himself as \"The Trevor\" post coitus",
-        "Andre tells Elena to fuck off (and blocks her)",
+        "Andrew curves a girl who wants to fuck him",
         "Jacob purchases home in New Haven, Connecticut",
         "Jacob gets into screaming match with Will (Overwatch related)",
         "Will gets his time at Port Arthur extended",
