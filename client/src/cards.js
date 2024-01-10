@@ -114,6 +114,7 @@ const cards = {
     "sasha":[
         "Tim works on Texas train project",
         "Physics grad student crushes on Jacob",
+        "Will ends up in a helicopter",
         "Austin gets commissioned for DND material",
         "Someone gets invited to join a podcast",
         "Andrew gets into a U-Haul relationship with an Italian girl",
