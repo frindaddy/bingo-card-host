@@ -6,7 +6,7 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
-const db = new sqlite3.Database('./bingo_card_db.sqlite');
+const db = new sqlite3.Database('./db/bingo_card_db.sqlite');
 
 let db_status = false;
 
