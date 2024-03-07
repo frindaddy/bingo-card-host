@@ -88,7 +88,7 @@ const cards = {
         "Trevor leg injury",
         "Austin joins NYC area polycule",
         "Brent goth GF",
-        "Entry At least 3 simultaneous significant others",
+        "At least 3 simultaneous significant others",
         "Tim passes FE",
         "Andrew apartment waterworld",
         "Will wedding hookup",
