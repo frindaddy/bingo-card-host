@@ -96,7 +96,7 @@ const cards = {
         "NOLA bar fight",
         "Full knee replacement (anyone)",
         "Tim sinks the boat",
-        "Trevor schmalds over Mia Zugheri",
+        "Trevor complains about Mia Zugheri",
         "Thanos snap #3",
         "Will shotgun wedding",
         "Someone detained by police",
