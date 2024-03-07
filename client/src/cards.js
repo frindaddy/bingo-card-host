@@ -219,7 +219,7 @@ const cards = {
         "Somebody has to purchase a Plan B",
         "Tim loses his virginity",
         "Andrew sleeps with Gloria Gardner",
-        "Trevor sleeps with Mia",
+        "Brent sleeps with someone autistic",
         "Will sleeps with Sofia Munoz"
     ]
 }
