@@ -66,7 +66,7 @@ const cards = {
         "Austin eats shit on Utah trails",
         "Austin starts playing Destiny 2 again",
         "Brent has car broken into",
-        "Tim starts playing rent",
+        "Tim starts paying rent",
         "Tim gets an Austinite e-girl girlfriend",
         "Waterworld",
         "Sasha buys Brent cigatettes",
