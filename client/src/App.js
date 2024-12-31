@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import cards from './cards.js';
 
+const currentYear = new Date().getFullYear();
+
 function App() {
     const [cardInt, setCardInt] = useState();
     const [cardName, setCardName] = useState('andrew');
@@ -115,6 +117,10 @@ function App() {
                     </tr>
                 </tbody>
             </table>
+            <footer style={{textAlign: "center", fontSize: "11px", color: "darkgray"}}>
+            <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
+                Powered by our pure genius.</p>
+            </footer>
         </>
   );
 }
