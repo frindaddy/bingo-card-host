@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import cards from './cards.js';
 
+const currentYear = new Date().getFullYear();
+
 function App() {
     const [cardInt, setCardInt] = useState();
     const [cardName, setCardName] = useState('andrew');
