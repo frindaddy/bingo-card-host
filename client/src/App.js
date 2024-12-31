@@ -111,6 +111,10 @@ function App() {
                     </tr>
                 </tbody>
             </table>
+            <footer style={{textAlign: "center", fontSize: "11px", color: "darkgray"}}>
+            <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
+                Powered by our pure genius.</p>
+            </footer>
         </>
   );
 }
