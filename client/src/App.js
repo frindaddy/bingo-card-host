@@ -60,7 +60,13 @@ function App() {
 
     return (
         <>
-            <h1>Sasma's Hoes Bingo Cards 2k24</h1>
+            <div className='title-container'>
+                <span className='title'>Bingo Cards</span>
+                <select>
+                    <option value={2024}>2024</option>
+                    <option value={2025}>2025</option>
+                </select>
+            </div>
             <div className="card-selector">
                 {getNavBarElement('andrew', 'Andrew')}
                 {getNavBarElement('austin', 'Austin')}

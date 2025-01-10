@@ -41,21 +41,47 @@ body {
   font-size: 19px;
 }
 
-h1 {
-  text-align: center;
-}
-
-td {
-  cursor: pointer;
+option {
+  color: black;
 }
 
 .square {
   aspect-ratio: 1/1;
 }
 
+select {
+  font-family: inherit;
+  background-color: transparent;
+  color: inherit;
+  padding: 5px;
+  padding-right: 0px;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+}
+
 .selected {
   border: 1px solid lightgray;
   border-radius: 15px;
+}
+
+td {
+  cursor: pointer;
+}
+
+.title {
+  margin-right: 0;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 hr {
