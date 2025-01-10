@@ -1,7 +1,7 @@
 import './App.css';
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import cards from './cards.js';
+import cards from './cards/2024.json';
 
 const currentYear = new Date().getFullYear();
 
@@ -48,7 +48,13 @@ function App() {
     function getTableCell(index) {
         return <td style={{color: (cardInt & (1 << index)) > 0 ? "red":"white"}} onClick={() => {
             onTileClicked(index)
-        }}><div className="square">{cards[cardName][index]}</div></td>
+        }}><div className="square">{cards[cardName]["squares"][index]}</div></td>
+    }
+
+    function getFreeSpace() {
+        return <td style={{color: (cardInt & (1 << 24)) > 0 ? "red":"white"}} onClick={() => {
+            onTileClicked(24)
+        }}><div className="square">{cards[cardName]["freespace"]}</div></td>
     }
 
     function getNavBarElement(internal_name, display_name) {
@@ -97,23 +103,23 @@ function App() {
                     <tr>
                         {getTableCell(10)}
                         {getTableCell(11)}
+                        {getFreeSpace()}
                         {getTableCell(12)}
                         {getTableCell(13)}
-                        {getTableCell(14)}
                     </tr>
                     <tr>
+                        {getTableCell(14)}
                         {getTableCell(15)}
                         {getTableCell(16)}
                         {getTableCell(17)}
                         {getTableCell(18)}
-                        {getTableCell(19)}
                     </tr>
                     <tr>
+                        {getTableCell(19)}
                         {getTableCell(20)}
                         {getTableCell(21)}
                         {getTableCell(22)}
                         {getTableCell(23)}
-                        {getTableCell(24)}
                     </tr>
                 </tbody>
             </table>
