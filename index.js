@@ -1,34 +1,22 @@
 const express = require('express');
 const path = require("path");
-const sqlite3 = require("sqlite3");
+const {JsonDB, Config} = require("node-json-db");
 const router = express.Router();
 const app = express();
+require('dotenv').config();
 
 const port = process.env.PORT || 5000;
 
-const db = new sqlite3.Database('./db/bingo_card_db.sqlite');
+const JSON_DIR = process.env.JSON_DIR || './client/src/cards/';
 
-let db_status = false;
+let validDBs = []
+let players = {}
 
-db.get(`SELECT * FROM sqlite_master WHERE name = 'cards'`, (err, row) => {
-    if (err) {
-        console.log('ERROR')
-        throw err;
-    }
-    if (row) {
-        console.log('Table Exists! Starting Bingo!')
-        db_status = true;
-    } else {
-        console.log('Table does not exist. Creating table...')
-        db.run(`CREATE TABLE cards (name varchar(255), card int);`, () => {
-            db.run(`INSERT INTO cards (name, card) VALUES ('andrew', 0), ('austin', 0), ('brent', 0), ('jacob', 0), ('sasha', 0), ('tim', 0), ('trevor', 0), ('will', 0);`, () => {
-                console.log('Table created and players added!');
-                db_status = true;
-            });
-        });
+const db2024 = new JsonDB(new Config(JSON_DIR+"2024", true, true, '/'));
+const db2025 = new JsonDB(new Config(JSON_DIR+"2025", true, true, '/'));
 
-    }
-});
+validateDB('2024');
+validateDB('2025');
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -40,29 +28,59 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, './client/build')));
 
-router.get('/bingo_card/:name', (req, res, next) => {
-    if(req.params.name && db_status){
-        db.get(`SELECT * FROM cards WHERE name = ?`, req.params.name, (err, row) => {
-            if (err) {
-                console.log('ERROR')
-                throw err;
-            }
-            if (row) {
-                res.json(row)
-            } else {
-                res.sendStatus(404);
-            }
-        });
+
+
+function getJsonDB(year) {
+    if(year === '2025'){
+        return db2025
+    } else {
+        return db2024
+    }
+}
+
+function validateDB(year){
+    getJsonDB(year).getData('/').then(data => {
+        let name_list = Object.keys(data)
+        if(name_list.length > 0){
+            let player_list = []
+            name_list.forEach(name =>{
+                if(data[name].displayName){
+                    player_list.push([name, data[name].displayName])
+                } else {
+                    player_list.push([name, name])
+                }
+            })
+            players[year] = player_list
+            validDBs.push(year)
+        }
+    })
+}
+
+router.get('/bingo_card/players/:year',  (req, res, next) => {
+    res.json({players: players[req.params.year]});
+});
+
+router.get('/bingo_card/:year_name',  (req, res, next) => {
+    if(req.params.year_name && req.params.year_name.length > 4){
+        let year = req.params.year_name.substring(0, 4)
+        let name = req.params.year_name.substring(4)
+
+        if(validDBs.includes(year)){
+            getJsonDB(year).getData("/"+name).then((card) => {
+                res.json(card)
+            });
+        } else {
+            res.sendStatus(400);
+        }
+
     } else {
         res.sendStatus(400);
     }
 });
 
-router.post('/update_card/:name', (req, res, next) => {
-    if (req.params.name && req.body && db_status) {
-        db.run(`UPDATE cards SET card = ? WHERE name = ?`,[req.body.card, req.params.name], () => {
-            res.sendStatus(200);
-        });
+router.post('/update_card/:year', (req, res, next) => {
+    if (req.params.year && req.body && validDBs.includes(req.params.year)) {
+        getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then( r => res.sendStatus(200));
     } else {
         res.sendStatus(400);
     }

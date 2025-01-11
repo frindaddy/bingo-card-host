@@ -1,27 +1,48 @@
 import './App.css';
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import cards from './cards/2024.json';
 
 const currentYear = new Date().getFullYear();
 
 function App() {
-    const [cardInt, setCardInt] = useState();
-    const [cardName, setCardName] = useState('andrew');
+    const [cardYear, setCardYear] = useState(new Date().getFullYear());
+    const [selectedTiles, setSelectedTiles] = useState(0);
+    const [cardName, setCardName] = useState('');
+    const [cardTiles, setCardTiles] = useState([]);
+    const [players, setPlayers] = useState([]);
+
     const getCardStatus = (name) => {
-        axios.get('api/bingo_card/'+name)
+        axios.get('api/bingo_card/'+cardYear+name)
             .then((res) => {
                 if (res.data) {
-                    setCardName(res.data.name);
-                    setCardInt(res.data.card);
+                    let tileMap = new Array(25).fill(null).map((u, i)=>{
+                        if(i < 12){
+                            return res.data.squares[i];
+                        }
+                        if(i === 12) return res.data.freespace;
+                        if(i > 12){
+                            return res.data.squares[i-1];
+                        }
+                    });
+                    setCardTiles(tileMap);
+                    setSelectedTiles(res.data.selectedTiles);
                 }
             }).catch((err) => console.log(err));
     }
 
-    const updateCard = (card_name, card_data) => {
-        axios.post('api/update_card/'+card_name, {
+    const getPlayers = (year) => {
+        axios.get('api/bingo_card/players/'+year)
+            .then((res) => {
+                if (res.data) {
+                    setPlayers(res.data.players);
+                }
+            }).catch((err) => console.log(err));
+    }
+
+    const updateCard = (card_name, card_year, newSelectedTiles) => {
+        axios.post('api/update_card/'+card_year, {
             name: card_name,
-            card: card_data
+            selectedTiles: newSelectedTiles
         })
             .then(function (response) {
                 getCardStatus(card_name);
@@ -32,8 +53,9 @@ function App() {
     }
 
     useEffect(() => {
+        getPlayers(cardYear+'');
         getCardStatus(cardName);
-    }, []);
+    }, [cardName, cardYear]);
 
     const switchCard = (player) => {
         setCardName(player);
@@ -41,20 +63,14 @@ function App() {
     }
 
     function onTileClicked(index) {
-        setCardInt(cardInt ^ (1 << index))
-        updateCard(cardName, cardInt ^ (1 << index));
+        setSelectedTiles(selectedTiles ^ (1 << index))
+        updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
     }
 
     function getTableCell(index) {
-        return <td style={{color: (cardInt & (1 << index)) > 0 ? "red":"white"}} onClick={() => {
+        return <td style={{color: (selectedTiles & (1 << index)) > 0 ? "red":"white"}} onClick={() => {
             onTileClicked(index)
-        }}><div className="square">{cards[cardName]["squares"][index]}</div></td>
-    }
-
-    function getFreeSpace() {
-        return <td style={{color: (cardInt & (1 << 24)) > 0 ? "red":"white"}} onClick={() => {
-            onTileClicked(24)
-        }}><div className="square">{cards[cardName]["freespace"]}</div></td>
+        }}><div className="square">{cardTiles[index]}</div></td>
     }
 
     function getNavBarElement(internal_name, display_name) {
@@ -64,27 +80,27 @@ function App() {
                   }}>{display_name}</p>
     }
 
+    function changeYear(e) {
+        setCardName('')
+        setCardYear(e.target.value)
+    }
+
     return (
         <>
             <div className='title-container'>
                 <span className='title'>Bingo Cards</span>
-                <select>
-                    <option value={2024}>2024</option>
-                    <option value={2025}>2025</option>
+                <select onChange={changeYear} defaultValue="2025">
+                    <option value={'2024'}>2024</option>
+                    <option value={'2025'}>2025</option>
                 </select>
             </div>
             <div className="card-selector">
-                {getNavBarElement('andrew', 'Andrew')}
-                {getNavBarElement('austin', 'Austin')}
-                {getNavBarElement('brent', 'Brent')}
-                {getNavBarElement('jacob', 'Jacob')}
-                {getNavBarElement('sasha', 'Sasha')}
-                {getNavBarElement('tim', 'Tim')}
-                {getNavBarElement('trevor', 'Trevor')}
-                {getNavBarElement('will', 'Will')}
+                {players.map(player =>{
+                    return getNavBarElement(player[0], player[1]);
+                })}
             </div>
             <hr></hr>
-            <table className="bingo-card">
+            {cardName !== '' && <table className="bingo-card">
                 <tbody>
                     <tr>
                         {getTableCell(0)}
@@ -103,26 +119,26 @@ function App() {
                     <tr>
                         {getTableCell(10)}
                         {getTableCell(11)}
-                        {getFreeSpace()}
                         {getTableCell(12)}
                         {getTableCell(13)}
+                        {getTableCell(14)}
                     </tr>
                     <tr>
-                        {getTableCell(14)}
                         {getTableCell(15)}
                         {getTableCell(16)}
                         {getTableCell(17)}
                         {getTableCell(18)}
+                        {getTableCell(19)}
                     </tr>
                     <tr>
-                        {getTableCell(19)}
                         {getTableCell(20)}
                         {getTableCell(21)}
                         {getTableCell(22)}
                         {getTableCell(23)}
+                        {getTableCell(24)}
                     </tr>
                 </tbody>
-            </table>
+            </table>}
             <footer style={{textAlign: "center", fontSize: "11px", color: "darkgray"}}>
             <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.</p>
