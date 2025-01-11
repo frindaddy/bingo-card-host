@@ -32,6 +32,7 @@
     },
     
     "andrew":{
+        "displayName": "Andrew",
         "selectedTiles": 0,
         "freespace": "",
         "squares":[
@@ -63,7 +64,17 @@
         ]
     },
 
+    "austin":{
+        "displayName": "Austin",
+        "selectedTiles": 0,
+        "freespace": "",
+        "squares":[
+            
+        ]
+    },
+
     "brent":{
+        "displayName": "Brent",
         "selectedTiles": 0,
         "freespace": "",
         "squares":[
@@ -72,6 +83,7 @@
     },
 
     "jacob":{
+        "displayName": "Jacob",
         "selectedTiles": 0,
         "freespace": "Jacob misses his train home",
         "squares":[
@@ -103,6 +115,7 @@
     },
 
     "sasha":{
+        "displayName": "Sasha",
         "selectedTiles": 0,
         "freespace": "Jacob rants about Trevor\\’s code",
         "squares":[
@@ -133,15 +146,8 @@
         ]
     },
 
-    "austin":{
-        "selectedTiles": 0,
-        "freespace": "",
-        "squares":[
-            
-        ]
-    },
-
     "tim":{
+        "displayName": "Tim",
         "selectedTiles": 0,
         "freespace": "",
         "squares":[
@@ -150,6 +156,7 @@
     },
 
     "trevor":{
+        "displayName": "Trevor",
         "selectedTiles": 0,
         "freespace": "Brent\\’s company participates in war overseas",
         "squares":[
@@ -180,6 +187,7 @@
     },
 
     "will":{
+        "displayName": "Will",
         "selectedTiles": 0,
         "freespace": "Trevor and Will neglect stash work",
         "squares":[
