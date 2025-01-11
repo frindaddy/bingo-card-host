@@ -180,9 +180,32 @@
 
     "will":{
         "selectedTiles": 0,
-        "freespace": "",
+        "freespace": "Trevor and Will neglect stash work",
         "squares":[
-            
+            "Somebody has their car totaled from hail",
+            "Will gets a new car",
+            "Brent max win at slot machine in NOLA",
+            "Tim attends an OKC Thunder NBA Finals game",
+            "Trevor wins a lifetime supply of espresso",
+            "Alend gets mistaken for a celebrity and has drinks bought for her",
+            "Jacob inherits real estate in Santa Fe NM",
+            "Sasha discovers buried treasure in the backyard",
+            "Andrew bowls 200 or better",
+            "Austin learns french and uses it to get a date",
+            "Will has to get leg surgery",
+            "Brent gets a girlfriend... but she has a husband still",
+            "Tim gets mistakenly put on the no fly list because a different Tim Wagner has been causing mischief",
+            "A clown follows Trevor home",
+            "Alden gets stuck in an elevator",
+            "Jacob stranded on an island",
+            "Sasha's car gets impounded",
+            "Andrew phone rings during a moment of silence",
+            "Austin stung by jellyfish",
+            "Somebody quits their job and goes to grad school (or quits school and gets a job)",
+            "Somebody catches a shiny pokemon",
+            "Somebody gets a new pet",
+            "Strep throat outbreak at the Christmas party",
+            "Somebody vomits in the restroom of an airplane"
         ]
     }
 }
