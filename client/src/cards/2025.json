@@ -1,9 +1,9 @@
 {
-    "alden":{
+    "alden": {
         "displayName": "Alden",
         "selectedTiles": 0,
         "freespace": "House fire",
-        "squares":[
+        "squares": [
             "Tim does a 720 on the wakeboard",
             "Trevor burns through a pair of Hokas in <6 months ",
             "Brent goes on more dates at the Denver Botanical Garden than months in the year",
@@ -30,18 +30,17 @@
             "Ghost sighting in Nola"
         ]
     },
-    
-    "andrew":{
+    "andrew": {
         "displayName": "Andrew",
         "selectedTiles": 0,
         "freespace": "",
-        "squares":[
+        "squares": [
             "Brent uses a whiteboard to explain something to someone he just met",
             "Anyone gets a tattoo",
             "Will and Trevor break their snap streak",
             "Tim gets a great new job",
             "Anyone bench presses 200lbs",
-            "Tim\\’s OKC Thunder win the NBA Championship",
+            "Tim’s OKC Thunder win the NBA Championship",
             "Sasha 3rd cat",
             "Jacob goes hunting across the street",
             "Austin has a complete conversation in French",
@@ -63,30 +62,23 @@
             "Anyone wins or loses $500+ at a casino"
         ]
     },
-
-    "austin":{
+    "austin": {
         "displayName": "Austin",
         "selectedTiles": 0,
         "freespace": "",
-        "squares":[
-            
-        ]
+        "squares": []
     },
-
-    "brent":{
+    "brent": {
         "displayName": "Brent",
         "selectedTiles": 0,
         "freespace": "",
-        "squares":[
-            
-        ]
+        "squares": []
     },
-
-    "jacob":{
+    "jacob": {
         "displayName": "Jacob",
         "selectedTiles": 0,
         "freespace": "Jacob misses his train home",
-        "squares":[
+        "squares": [
             "Someone joins the mile high club",
             "Anyone bowls a 200 or higher",
             "Trinity v Milsaps Tailgate",
@@ -103,29 +95,28 @@
             "Austin dates a warhammer 40k girl",
             "Crawfish in da pool",
             "New Jersey Carne Asada",
-            "Nor\\’easter knocks out NY/NJ power for a week or more",
+            "Nor’easter knocks out NY/NJ power for a week or more",
             "Someone oversleeps and misses their flight",
             "Group trip to NYC Dirt Room",
-            "Someone other than Jacob/Sasha tries Cafe Pasqual\\’s BLT",
+            "Someone other than Jacob/Sasha tries Cafe Pasqual’s BLT",
             "Will takes a date to Galveston Rainforest Cafe",
             "Someone becomes a juror in a muder trial",
             "Discord outage makes group return to TeamSpeak",
             "CS2 knife unboxing"
-            ]
+        ]
     },
-
-    "sasha":{
+    "sasha": {
         "displayName": "Sasha",
         "selectedTiles": 0,
-        "freespace": "Jacob rants about Trevor\\’s code",
-        "squares":[
+        "freespace": "Jacob rants about Trevor’s code",
+        "squares": [
             "Brent dates a Russian",
-            "Sasha\\’s sourdough goes wrong",
+            "Sasha’s sourdough goes wrong",
             "Brent signs a lease on the east coast",
-            "Jacob\\’s car slides off the road due to ice",
+            "Jacob’s car slides off the road due to ice",
             "Austin moves out of NYC",
-            "Sasma\\’s goes to Waffle House",
-            "Sasma\\’s NYC trip",
+            "Sasma’s goes to Waffle House",
+            "Sasma’s NYC trip",
             "Austin gets into candle making",
             "Icebox dies",
             "Tim bets on a horse AND it wins",
@@ -136,8 +127,8 @@
             "Will grows a beard",
             "Northeast gets hit with a hurricane",
             "Sasha gets a plex account",
-            "Trevor\\’s med school cancels class",
-            "Sasma\\’s takes vitamins/supplements",
+            "Trevor’s med school cancels class",
+            "Sasma’s takes vitamins/supplements",
             "Alden gets Shipley",
             "Andrew runs a half marathon",
             "Fire extinguisher needed and used",
@@ -145,22 +136,18 @@
             "Tim moves to the east coast"
         ]
     },
-
-    "tim":{
+    "tim": {
         "displayName": "Tim",
         "selectedTiles": 0,
         "freespace": "",
-        "squares":[
-            
-        ]
+        "squares": []
     },
-
-    "trevor":{
+    "trevor": {
         "displayName": "Trevor",
         "selectedTiles": 0,
-        "freespace": "Brent\\’s company participates in war overseas",
-        "squares":[
-            "Someone waterworlds Andrew\\’s new apartment",
+        "freespace": "Brent's company participates in war overseas",
+        "squares": [
+            "Someone waterworlds Andrew’s new apartment",
             "Jacob or Sasha gets Lyme disease",
             "Alden moves to San Antonio",
             "Brent has the SEX (this year for sure)",
@@ -185,12 +172,11 @@
             "1 gay relationship in the group"
         ]
     },
-
-    "will":{
+    "will": {
         "displayName": "Will",
         "selectedTiles": 0,
         "freespace": "Trevor and Will neglect stash work",
-        "squares":[
+        "squares": [
             "Somebody has their car totaled from hail",
             "Will gets a new car",
             "Brent max win at slot machine in NOLA",
