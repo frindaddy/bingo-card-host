@@ -1,5 +1,6 @@
 {
     "andrew":{
+        "displayName": "Andrew",
         "selectedTiles": 0,
         "freespace": "Trevor leg injury",
         "squares":[
@@ -30,7 +31,40 @@
         ]
     },
 
+    "austin":{
+        "displayName": "Austin",
+        "selectedTiles": 0,
+        "freespace": "Brent complaint about something in Denver",
+        "squares":[
+            "Andrew to Philly",
+            "Tim makes Trevor's parents mad when partying at his house",
+            "Competitive video game argument that lasts for longer than an hour",
+            "The Hoe dies",
+            "New Will blackout drunk photo",
+            "Bad/funny first date story",
+            "Someone hooks up with someone at a wedding",
+            "Andrew uses Italian to get a number/date",
+            "Austin jinxes a sports team",
+            "Someone screw up their Spotify Wrapped by falling asleep/playign something by accident",
+            "Jacob pisses his pants",
+            "Election year meme makes it to the Popular tab of The Rave",
+            "A member of the group throws up after getting off the NYC Subway when visiting Austin",
+            "3+ people have power go out due to weather in Texas",
+            "More than 3 significant others",
+            "Jacob makes us all buy a game that we get less than 2 hours of play time on",
+            "\"Oh No Digiorno\" A pizza gets dropped or burned on Pizza Night",
+            "A member of the group goes MIA for a month or more",
+            "Someone hit by car",
+            "A member of the group meets a Youtuber/streamer in public, randomly",
+            "The group does not play Satisfactory for more than a week (game launches and is played for more than an hour)",
+            "Trevor leg injury",
+            "Someone gets hurt or burned at the Utah house",
+            "Trevor dates someone with a cat"
+        ]
+    },
+
     "brent":{
+        "displayName": "Brent",
         "selectedTiles": 0,
         "freespace": "Waterworld",
         "squares":[
@@ -62,6 +96,7 @@
     },
 
     "jacob":{
+        "displayName": "Jacob",
         "selectedTiles": 0,
         "freespace": "Trevor complains about Mia Zugheri",
         "squares":[
@@ -93,6 +128,7 @@
     },
 
     "sasha":{
+        "displayName": "Sasha",
         "selectedTiles": 0,
         "freespace": "Brent plays deer gets run over by airplane",
         "squares":[
@@ -123,38 +159,8 @@
         ]
     },
 
-    "austin":{
-        "selectedTiles": 0,
-        "freespace": "Brent complaint about something in Denver",
-        "squares":[
-            "Andrew to Philly",
-            "Tim makes Trevor's parents mad when partying at his house",
-            "Competitive video game argument that lasts for longer than an hour",
-            "The Hoe dies",
-            "New Will blackout drunk photo",
-            "Bad/funny first date story",
-            "Someone hooks up with someone at a wedding",
-            "Andrew uses Italian to get a number/date",
-            "Austin jinxes a sports team",
-            "Someone screw up their Spotify Wrapped by falling asleep/playign something by accident",
-            "Jacob pisses his pants",
-            "Election year meme makes it to the Popular tab of The Rave",
-            "A member of the group throws up after getting off the NYC Subway when visiting Austin",
-            "3+ people have power go out due to weather in Texas",
-            "More than 3 significant others",
-            "Jacob makes us all buy a game that we get less than 2 hours of play time on",
-            "\"Oh No Digiorno\" A pizza gets dropped or burned on Pizza Night",
-            "A member of the group goes MIA for a month or more",
-            "Someone hit by car",
-            "A member of the group meets a Youtuber/streamer in public, randomly",
-            "The group does not play Satisfactory for more than a week (game launches and is played for more than an hour)",
-            "Trevor leg injury",
-            "Someone gets hurt or burned at the Utah house",
-            "Trevor dates someone with a cat"
-        ]
-    },
-
     "tim":{
+        "displayName": "Tim",
         "selectedTiles": 0,
         "freespace": "PIZZA NIGHT GOES WRONG",
         "squares":[
@@ -186,6 +192,7 @@
     },
 
     "trevor":{
+        "displayName": "Trevor",
         "selectedTiles": 0,
         "freespace": "Brent hits a drunk cig then craves nicotine for days",
         "squares":[
@@ -217,6 +224,7 @@
     },
 
     "will":{
+        "displayName": "Will",
         "selectedTiles": 0,
         "freespace": "Brent has a cig when drunk",
         "squares":[
