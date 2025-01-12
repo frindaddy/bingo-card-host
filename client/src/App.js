@@ -59,7 +59,7 @@ function App() {
     }, [cardName, cardYear]);
 
     useEffect(()=>{
-        if(players.length > 0) {
+        if(cardName==='' && players.length > 0) {
             setCardName(players[0][0])
         }
     }, [players])
@@ -93,6 +93,7 @@ function App() {
     function changeYear(e) {
         setCardName('')
         setCardYear(e.target.value)
+        setEditMode(false);
     }
 
     return (
