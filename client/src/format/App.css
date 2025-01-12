@@ -1,4 +1,26 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500");
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 100;
+  src: local(''),
+      url('./fonts/Roboto/Roboto-normal-100.ttf');
+}
+
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  src: local(''),
+      url('./fonts/Roboto/Roboto-normal-300.ttf');
+}
+
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+      url('./fonts/Roboto/Roboto-normal-400.ttf');
+}
 
 html {
   background-color: #1D1E1F;
