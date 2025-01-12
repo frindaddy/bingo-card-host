@@ -1,6 +1,6 @@
 import './App.css';
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, cloneElement } from "react";
 
 const currentYear = new Date().getFullYear();
 
@@ -10,7 +10,7 @@ function App() {
     const [cardName, setCardName] = useState('');
     const [cardTiles, setCardTiles] = useState([]);
     const [players, setPlayers] = useState([]);
-    const [editMode, setEditMode] = useState(false);
+    const [editMode, setEditMode] = useState(true);
 
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
@@ -150,7 +150,13 @@ function App() {
                     </tr>
                 </tbody>
             </table>}
-            <p style={{cursor:"pointer"}} onClick={()=>{setEditMode(!editMode)}}>{editMode ? "Lock":"Edit"}</p>
+            <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
+                <div style={{paddingRight: "15px", display: 'flex', alignItems: 'center'}}>{editMode ? "Editing Locked":"Editing Enabled"}</div>
+                <label class="switch">
+                    <input type="checkbox" onClick={()=>{setEditMode(!editMode)}}></input>
+                    <span class="slider round"></span>
+                </label>
+            </div>
             <footer style={{textAlign: "center", fontSize: "11px", color: "darkgray"}}>
             <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.</p>
