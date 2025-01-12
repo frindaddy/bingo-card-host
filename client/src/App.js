@@ -10,7 +10,7 @@ function App() {
     const [cardName, setCardName] = useState('');
     const [cardTiles, setCardTiles] = useState([]);
     const [players, setPlayers] = useState([]);
-    const [editMode, setEditMode] = useState(true);
+    const [editMode, setEditMode] = useState(false);
 
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
@@ -151,7 +151,7 @@ function App() {
                 </tbody>
             </table>}
             <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
-                <div style={{paddingRight: "15px", display: 'flex', alignItems: 'center'}}>{editMode ? "Editing Locked":"Editing Enabled"}</div>
+                <div style={{paddingRight: "15px", display: 'flex', alignItems: 'center'}}>{editMode ? "Editing Enabled":"Card Locked"}</div>
                 <label class="switch">
                     <input type="checkbox" onClick={()=>{setEditMode(!editMode)}}></input>
                     <span class="slider round"></span>
