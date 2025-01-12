@@ -1,27 +1,49 @@
 import './App.css';
 import axios from "axios";
-import React, { useState, useEffect } from "react";
-import cards from './cards.js';
+import React, { useState, useEffect, cloneElement } from "react";
 
 const currentYear = new Date().getFullYear();
 
 function App() {
-    const [cardInt, setCardInt] = useState();
-    const [cardName, setCardName] = useState('andrew');
+    const [cardYear, setCardYear] = useState(new Date().getFullYear());
+    const [selectedTiles, setSelectedTiles] = useState(0);
+    const [cardName, setCardName] = useState('');
+    const [cardTiles, setCardTiles] = useState([]);
+    const [players, setPlayers] = useState([]);
+    const [editMode, setEditMode] = useState(false);
+
     const getCardStatus = (name) => {
-        axios.get('api/bingo_card/'+name)
+        axios.get('api/bingo_card/'+cardYear+name)
             .then((res) => {
                 if (res.data) {
-                    setCardName(res.data.name);
-                    setCardInt(res.data.card);
+                    let tileMap = new Array(25).fill(null).map((u, i)=>{
+                        if(i < 12){
+                            return res.data.squares[i];
+                        }
+                        if(i === 12) return res.data.freespace;
+                        if(i > 12){
+                            return res.data.squares[i-1];
+                        }
+                    });
+                    setCardTiles(tileMap);
+                    setSelectedTiles(res.data.selectedTiles);
                 }
             }).catch((err) => console.log(err));
     }
 
-    const updateCard = (card_name, card_data) => {
-        axios.post('api/update_card/'+card_name, {
+    const getPlayers = (year) => {
+        axios.get('api/bingo_card/players/'+year)
+            .then((res) => {
+                if (res.data) {
+                    setPlayers(res.data.players);
+                }
+            }).catch((err) => console.log(err));
+    }
+
+    const updateCard = (card_name, card_year, newSelectedTiles) => {
+        axios.post('api/update_card/'+card_year, {
             name: card_name,
-            card: card_data
+            selectedTiles: newSelectedTiles
         })
             .then(function (response) {
                 getCardStatus(card_name);
@@ -32,23 +54,33 @@ function App() {
     }
 
     useEffect(() => {
-        getCardStatus(cardName);
-    }, []);
+        getPlayers(cardYear+'');
+        if(cardName !== '') getCardStatus(cardName);
+    }, [cardName, cardYear]);
+
+    useEffect(()=>{
+        if(cardName==='' && players.length > 0) {
+            setCardName(players[0][0])
+        }
+    }, [players])
 
     const switchCard = (player) => {
         setCardName(player);
         getCardStatus(player);
+        setEditMode(false);
     }
 
     function onTileClicked(index) {
-        setCardInt(cardInt ^ (1 << index))
-        updateCard(cardName, cardInt ^ (1 << index));
+        if(editMode){
+            setSelectedTiles(selectedTiles ^ (1 << index))
+            updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
+        }
     }
 
     function getTableCell(index) {
-        return <td style={{color: (cardInt & (1 << index)) > 0 ? "red":"white"}} onClick={() => {
+        return <td style={{color: (selectedTiles & (1 << index)) > 0 ? "red":"white"}} onClick={() => {
             onTileClicked(index)
-        }}><div className="square">{cards[cardName][index]}</div></td>
+        }}><div className="square">{cardTiles[index]}</div></td>
     }
 
     function getNavBarElement(internal_name, display_name) {
@@ -58,21 +90,28 @@ function App() {
                   }}>{display_name}</p>
     }
 
+    function changeYear(e) {
+        setCardName('')
+        setCardYear(e.target.value)
+        setEditMode(false);
+    }
+
     return (
         <>
-            <h1>Sasma's Hoes Bingo Cards 2k24</h1>
+            <div className='title-container'>
+                <span className='title'>Bingo Cards</span>
+                <select onChange={changeYear} defaultValue="2025">
+                    <option value={'2024'}>2024</option>
+                    <option value={'2025'}>2025</option>
+                </select>
+            </div>
             <div className="card-selector">
-                {getNavBarElement('andrew', 'Andrew')}
-                {getNavBarElement('austin', 'Austin')}
-                {getNavBarElement('brent', 'Brent')}
-                {getNavBarElement('jacob', 'Jacob')}
-                {getNavBarElement('sasha', 'Sasha')}
-                {getNavBarElement('tim', 'Tim')}
-                {getNavBarElement('trevor', 'Trevor')}
-                {getNavBarElement('will', 'Will')}
+                {players.map(player =>{
+                    return getNavBarElement(player[0], player[1]);
+                })}
             </div>
             <hr></hr>
-            <table className="bingo-card">
+            {cardName !== '' && <table className="bingo-card" style={editMode?{cursor:"pointer"}:{}}>
                 <tbody>
                     <tr>
                         {getTableCell(0)}
@@ -110,7 +149,14 @@ function App() {
                         {getTableCell(24)}
                     </tr>
                 </tbody>
-            </table>
+            </table>}
+            <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
+                <div style={{paddingRight: "15px", display: 'flex', alignItems: 'center'}}>{editMode ? "Editing Enabled":"Card Locked"}</div>
+                <label class="switch">
+                    <input type="checkbox" checked={editMode} onClick={()=>{setEditMode(!editMode)}}></input>
+                    <span class="slider round"></span>
+                </label>
+            </div>
             <footer style={{textAlign: "center", fontSize: "11px", color: "darkgray"}}>
             <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.</p>
