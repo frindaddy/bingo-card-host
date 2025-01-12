@@ -66,10 +66,6 @@ select {
   border-radius: 15px;
 }
 
-td {
-  cursor: pointer;
-}
-
 .title {
   margin-right: 0;
   font-size: 30px;

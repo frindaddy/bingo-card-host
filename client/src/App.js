@@ -10,6 +10,7 @@ function App() {
     const [cardName, setCardName] = useState('');
     const [cardTiles, setCardTiles] = useState([]);
     const [players, setPlayers] = useState([]);
+    const [editMode, setEditMode] = useState(false);
 
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
@@ -60,11 +61,14 @@ function App() {
     const switchCard = (player) => {
         setCardName(player);
         getCardStatus(player);
+        setEditMode(false);
     }
 
     function onTileClicked(index) {
-        setSelectedTiles(selectedTiles ^ (1 << index))
-        updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
+        if(editMode){
+            setSelectedTiles(selectedTiles ^ (1 << index))
+            updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
+        }
     }
 
     function getTableCell(index) {
@@ -100,7 +104,7 @@ function App() {
                 })}
             </div>
             <hr></hr>
-            {cardName !== '' && <table className="bingo-card">
+            {cardName !== '' && <table className="bingo-card" style={editMode?{cursor:"pointer"}:{}}>
                 <tbody>
                     <tr>
                         {getTableCell(0)}
@@ -139,6 +143,7 @@ function App() {
                     </tr>
                 </tbody>
             </table>}
+            <p style={{cursor:"pointer"}} onClick={()=>{setEditMode(!editMode)}}>{editMode ? "Lock":"Edit"}</p>
             <footer style={{textAlign: "center", fontSize: "11px", color: "darkgray"}}>
             <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.</p>
