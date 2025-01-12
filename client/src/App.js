@@ -59,7 +59,7 @@ function App() {
     }, [cardName, cardYear]);
 
     useEffect(()=>{
-        if(cardName==='' && players.length > 0) {
+        if(cardName==='' && players !== undefined && players.length > 0) {
             setCardName(players[0][0])
         }
     }, [players])
