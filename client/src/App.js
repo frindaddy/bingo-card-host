@@ -55,8 +55,14 @@ function App() {
 
     useEffect(() => {
         getPlayers(cardYear+'');
-        getCardStatus(cardName);
+        if(cardName !== '') getCardStatus(cardName);
     }, [cardName, cardYear]);
+
+    useEffect(()=>{
+        if(players.length > 0) {
+            setCardName(players[0][0])
+        }
+    }, [players])
 
     const switchCard = (player) => {
         setCardName(player);
