@@ -106,7 +106,7 @@ function App() {
                 </select>
             </div>
             <div className="card-selector">
-                {players.map(player =>{
+                {players !== undefined && players.map(player =>{
                     return getNavBarElement(player[0], player[1]);
                 })}
             </div>
