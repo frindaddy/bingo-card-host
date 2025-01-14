@@ -20,6 +20,8 @@ for person in cards:
     # reset selectedTiles int
     cards[person]['selectedTiles'] = 0
 
+print("Cards shuffled!")
+
 with io.open(cardJSON, encoding='utf-8', mode='w') as file:
     json.dump(cards, file, ensure_ascii=False, indent=4)
     file.close()
