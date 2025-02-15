@@ -3,6 +3,32 @@ import axios from "axios";
 import React, { useState, useEffect, cloneElement } from "react";
 
 const currentYear = new Date().getFullYear();
+const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK;
+
+// for sending discord messages to a channel via webhooks
+function sendDiscordMessage(payload, webhookUrl) {
+    const data = typeof payload === 'string' ? { content: payload } : payload;
+
+    return new Promise((resolve, reject) => {
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                reject(new Error(`Could not send message: ${response.status}`));
+            }
+            resolve();
+        })
+        .catch((error) => {
+            console.error(error);
+            reject(error);
+        });
+    });
+};
 
 function App() {
     const [cardYear, setCardYear] = useState(new Date().getFullYear());
@@ -11,6 +37,7 @@ function App() {
     const [cardTiles, setCardTiles] = useState([]);
     const [players, setPlayers] = useState([]);
     const [editMode, setEditMode] = useState(false);
+    const [selectedPlayer, setSelectedPlayer] = useState(['']);
 
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
@@ -74,6 +101,9 @@ function App() {
         if(editMode){
             setSelectedTiles(selectedTiles ^ (1 << index))
             updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
+            if(DISCORD_WEBHOOK == undefined){
+                sendDiscordMessage("Bingo Alert!\n\n" + cardTiles[index] + " on " + "DISPLAY_NAME" + "'s square has been checked!", DISCORD_WEBHOOK);
+            }
         }
     }
 

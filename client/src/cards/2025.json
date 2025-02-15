@@ -1,9 +1,9 @@
 {
-    "person1":{
+    "person1": {
         "displayName": "Name1",
-        "selectedTiles": 0,
+        "selectedTiles": 8388608,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -30,12 +30,11 @@
             "24"
         ]
     },
-
-    "person2":{
+    "person2": {
         "displayName": "Name2",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -62,12 +61,11 @@
             "24"
         ]
     },
-
-    "person3":{
+    "person3": {
         "displayName": "Name3",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -94,12 +92,11 @@
             "24"
         ]
     },
-
-    "person4":{
+    "person4": {
         "displayName": "Name4",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -126,12 +123,11 @@
             "24"
         ]
     },
-
-    "person5":{
+    "person5": {
         "displayName": "Name5",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -158,12 +154,11 @@
             "24"
         ]
     },
-
-    "person6":{
+    "person6": {
         "displayName": "Name6",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -190,12 +185,11 @@
             "24"
         ]
     },
-
-    "person7":{
+    "person7": {
         "displayName": "Name7",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -222,12 +216,11 @@
             "24"
         ]
     },
-
-    "person8":{
+    "person8": {
         "displayName": "Name8",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -254,12 +247,11 @@
             "24"
         ]
     },
-
-    "person9":{
+    "person9": {
         "displayName": "Name9",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
@@ -286,12 +278,11 @@
             "24"
         ]
     },
-
-    "person10":{
+    "person10": {
         "displayName": "Name10",
         "selectedTiles": 0,
         "freespace": "Freespace",
-        "squares":[
+        "squares": [
             "1",
             "2",
             "3",
