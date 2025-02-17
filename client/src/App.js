@@ -11,6 +11,7 @@ function App() {
     const [cardTiles, setCardTiles] = useState([]);
     const [players, setPlayers] = useState([]);
     const [editMode, setEditMode] = useState(false);
+    const [selectedPlayerName, setSelectedPlayerName] = useState(['']);
 
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
@@ -70,10 +71,24 @@ function App() {
         setEditMode(false);
     }
 
+    function sendDiscordMessage(message){
+        axios.post('api/discord_bot', {
+            payload: message
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     function onTileClicked(index) {
         if(editMode){
             setSelectedTiles(selectedTiles ^ (1 << index))
             updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
+            if(!(selectedTiles & (1 << index))){
+                sendDiscordMessage("# 🚨 BINGO ALERT 🚨\n\n"+
+                    "***" + cardTiles[index] + "*** on **" + selectedPlayerName + "'s** square has been checked!\n"+
+                    "-# Go to [the site](https://bingo.icebox.pw) to check it out!");
+            }
         }
     }
 
@@ -86,7 +101,8 @@ function App() {
     function getNavBarElement(internal_name, display_name) {
         return <p className={cardName === internal_name ? 'selected' : ''}
                   onClick={() => {
-                      switchCard(internal_name)
+                      switchCard(internal_name);
+                      setSelectedPlayerName(display_name);
                   }}>{display_name}</p>
     }
 
