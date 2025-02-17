@@ -26,6 +26,7 @@ function App() {
                             return res.data.squares[i-1];
                         }
                     });
+                    setSelectedPlayerName(res.data.displayName)
                     setCardTiles(tileMap);
                     setSelectedTiles(res.data.selectedTiles);
                 }
