@@ -61,7 +61,8 @@ function App() {
 
     useEffect(()=>{
         if(cardName==='' && players !== undefined && players.length > 0) {
-            setCardName(players[0][0])
+            setCardName(players[0][0]);
+            setSelectedPlayerName(players[0][1]);
         }
     }, [players])
 
