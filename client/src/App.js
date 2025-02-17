@@ -3,32 +3,6 @@ import axios from "axios";
 import React, { useState, useEffect, cloneElement } from "react";
 
 const currentYear = new Date().getFullYear();
-const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK;
-
-// for sending discord messages to a channel via webhooks
-function sendDiscordMessage(payload, webhookUrl) {
-    const data = typeof payload === 'string' ? { content: payload } : payload;
-
-    return new Promise((resolve, reject) => {
-        fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then((response) => {
-            if (!response.ok) {
-                reject(new Error(`Could not send message: ${response.status}`));
-            }
-            resolve();
-        })
-        .catch((error) => {
-            console.error(error);
-            reject(error);
-        });
-    });
-};
 
 function App() {
     const [cardYear, setCardYear] = useState(new Date().getFullYear());
@@ -37,7 +11,7 @@ function App() {
     const [cardTiles, setCardTiles] = useState([]);
     const [players, setPlayers] = useState([]);
     const [editMode, setEditMode] = useState(false);
-    const [selectedPlayer, setSelectedPlayer] = useState(['']);
+    const [selectedPlayerName, setSelectedPlayerName] = useState(['']);
 
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
@@ -97,12 +71,23 @@ function App() {
         setEditMode(false);
     }
 
+    function sendDiscordMessage(message){
+        axios.post('api/discord_bot', {
+            payload: message
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     function onTileClicked(index) {
         if(editMode){
             setSelectedTiles(selectedTiles ^ (1 << index))
             updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
-            if(DISCORD_WEBHOOK == undefined){
-                sendDiscordMessage("Bingo Alert!\n\n" + cardTiles[index] + " on " + "DISPLAY_NAME" + "'s square has been checked!", DISCORD_WEBHOOK);
+            if(!(selectedTiles & (1 << index))){
+                sendDiscordMessage("# 🚨 BINGO ALERT 🚨\n\n"+
+                    "***" + cardTiles[index] + "*** on **" + selectedPlayerName + "'s** square has been checked!\n"+
+                    "-# Go to [the site](https://bingo.icebox.pw) to check it out!");
             }
         }
     }
@@ -116,7 +101,8 @@ function App() {
     function getNavBarElement(internal_name, display_name) {
         return <p className={cardName === internal_name ? 'selected' : ''}
                   onClick={() => {
-                      switchCard(internal_name)
+                      switchCard(internal_name);
+                      setSelectedPlayerName(display_name);
                   }}>{display_name}</p>
     }
 
