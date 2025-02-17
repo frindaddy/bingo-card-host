@@ -1,7 +1,7 @@
 {
     "person1": {
         "displayName": "Name1",
-        "selectedTiles": 8388608,
+        "selectedTiles": 0,
         "freespace": "Freespace",
         "squares": [
             "1",
