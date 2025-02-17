@@ -104,7 +104,6 @@ function App() {
         return <p className={cardName === internal_name ? 'selected' : ''}
                   onClick={() => {
                       switchCard(internal_name);
-                      setSelectedPlayerName(display_name);
                   }}>{display_name}</p>
     }
 
