@@ -9,6 +9,8 @@ const port = process.env.PORT || 5000;
 
 const JSON_DIR = process.env.JSON_DIR || './client/src/cards/';
 
+const SITE_URL = process.env.SITE_URL || 'https://www.google.com';
+
 const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK;
 let warnNoDiscordWebhook = true;
 
@@ -121,7 +123,7 @@ function sendDiscordMessage(markedTileText, displayName){
     if(DISCORD_WEBHOOK !== undefined){
         message = "# 🚨 BINGO ALERT 🚨\n\n"+
                     "***" + markedTileText + "*** on **" + displayName + "'s** square has been checked!\n"+
-                    "-# Go to [the site](https://bingo.icebox.pw) to check it out!";
+                    "-# Go to [the site](" + SITE_URL + ") to check it out!";
         const data = typeof message === 'string' ? { content: message } : message;
         try {
             fetch(DISCORD_WEBHOOK, {
@@ -154,7 +156,7 @@ function sendSMS(markedTileText, displayName){
     if((TWILIO_ACCOUNT_SID !== undefined) && (TWILIO_AUTH_TOKEN !== undefined)){
         message = "🚨 BINGO ALERT 🚨\n\n"+
                     markedTileText + " on " + displayName + "'s card has been checked!\n\n"+
-                    "Go to https://bingo.icebox.pw to check it out!";
+                    "Go to " + SITE_URL + " to check it out!";
         const smsClient = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
         smsClient.messages.create({
             body: message,
