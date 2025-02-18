@@ -12,6 +12,7 @@ function App() {
     const [players, setPlayers] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [selectedPlayerName, setSelectedPlayerName] = useState(['']);
+    const [discordEnabled, setDiscordEnabled] = useState(true);
 
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
@@ -78,7 +79,12 @@ function App() {
             payload: message
         })
             .catch(function (error) {
-                console.log(error);
+                if(error.status && error.status === 501) {
+                    console.log('No discord bot configured! Preventing further requests.')
+                    setDiscordEnabled(false)
+                } else {
+                    console.log(error);
+                }
             });
     }
 
@@ -86,7 +92,7 @@ function App() {
         if(editMode){
             setSelectedTiles(selectedTiles ^ (1 << index))
             updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
-            if(!(selectedTiles & (1 << index))){
+            if(!(selectedTiles & (1 << index)) && discordEnabled){
                 sendDiscordMessage("# 🚨 BINGO ALERT 🚨\n\n"+
                     "***" + cardTiles[index] + "*** on **" + selectedPlayerName + "'s** square has been checked!\n"+
                     "-# Go to [the site](https://bingo.icebox.pw) to check it out!");
