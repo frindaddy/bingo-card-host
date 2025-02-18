@@ -12,6 +12,12 @@ const JSON_DIR = process.env.JSON_DIR || './client/src/cards/';
 const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK;
 let warnNoDiscordWebhook = true;
 
+const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
+const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER;
+const RECIPIENT_PHONE_NUMBERS = process.env.RECIPIENT_PHONE_NUMBERS;
+let warnNoSMS = true;
+
 let validDBs = []
 let players = {}
 
@@ -100,6 +106,7 @@ function messageBot(year, name, oldSelectedTiles, newSelectedTiles){
     getJsonDB(year).getData('/'+ name +'/displayName').then((displayName) => {
         getJsonDB(year).getData('/' + name + getTileTextPath(Math.log2(oldSelectedTiles ^ newSelectedTiles))).then((markedTileText) => {
             sendDiscordMessage(markedTileText, displayName);
+            sendSMS(markedTileText, displayName);
         });
     });
 }
@@ -139,6 +146,25 @@ function sendDiscordMessage(markedTileText, displayName){
         if(tryDiscordPost){
             console.log("Discord message not posted because there is no provided Discord webhook.");
             warnNoDiscordWebhook = false;
+        }
+    }
+}
+
+function sendSMS(markedTileText, displayName){
+    if((TWILIO_ACCOUNT_SID !== undefined) && (TWILIO_AUTH_TOKEN !== undefined)){
+        message = "🚨 BINGO ALERT 🚨\n\n"+
+                    markedTileText + " on " + displayName + "'s card has been checked!\n\n"+
+                    "Go to https://bingo.icebox.pw to check it out!";
+        const smsClient = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+        smsClient.messages.create({
+            body: message,
+            from: TWILIO_PHONE_NUMBER,
+            to: RECIPIENT_PHONE_NUMBERS
+        }).then(message => console.log(message.sid));
+    } else {
+        if(warnNoSMS){
+            console.log("SMS not sent because there is no provided Twilio SID or Auth Token.");
+            warnNoSMS = false;
         }
     }
 }
