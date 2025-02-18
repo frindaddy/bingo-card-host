@@ -162,7 +162,7 @@ function sendSMS(markedTileText, displayName){
             body: message,
             from: TWILIO_PHONE_NUMBER,
             to: RECIPIENT_PHONE_NUMBERS
-        }).then(message => console.log(message.sid));
+        });
     } else {
         if(warnNoSMS){
             console.log("SMS not sent because there is no provided Twilio SID or Auth Token.");
