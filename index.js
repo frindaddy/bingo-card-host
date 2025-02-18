@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 const JSON_DIR = process.env.JSON_DIR || './client/src/cards/';
 
 const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK;
-let tryDiscordPost = true;
+let warnNoDiscordWebhook = true;
 
 let validDBs = []
 let players = {}
@@ -138,7 +138,7 @@ function sendDiscordMessage(markedTileText, displayName){
     } else {
         if(tryDiscordPost){
             console.log("Discord message not posted because there is no provided Discord webhook.");
-            tryDiscordPost = false;
+            warnNoDiscordWebhook = false;
         }
     }
 }
