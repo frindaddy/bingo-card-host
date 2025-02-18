@@ -80,7 +80,11 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
 
 router.post('/update_card/:year', (req, res, next) => {
     if (req.params.year && req.body && validDBs.includes(req.params.year)) {
-        getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then(r => res.sendStatus(200));
+        if(players[req.params.year].map(player =>  {return player[0]}).includes(req.body.name)){
+            getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then(r => res.sendStatus(200));
+        } else {
+            res.sendStatus(400);
+        }
     } else {
         res.sendStatus(400);
     }
