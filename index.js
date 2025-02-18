@@ -113,7 +113,7 @@ function getTileTextPath(tileIndex){
 function sendDiscordMessage(markedTileText, displayName){
     if(DISCORD_WEBHOOK !== undefined){
         message = "# 🚨 BINGO ALERT 🚨\n\n"+
-                    "***" + markedTileText + "*** on **" + displayName + "'s** square has been checked!\n"+
+                    "***" + markedTileText + "*** on **" + displayName + "'s** card has been checked!\n"+
                     "-# Go to [the site](https://bingo.icebox.pw) to check it out!";
         const data = typeof message === 'string' ? { content: message } : message;
         try {
