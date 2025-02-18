@@ -99,23 +99,23 @@ router.post('/discord_bot', (req, res, next) => {
             })
                 .then((response) => {
                     if (!response.ok) {
-                        console.log("Error sending Discord message: "+response)
+                        console.log("Error sending Discord message: "+response);
                         res.sendStatus(500);
                     } else {
-                        res.sendStatus(200)
+                        res.sendStatus(200);
                     }
                 })
                 .catch((error) => {
-                    console.error(error)
+                    console.error(error);
                     res.sendStatus(500);
                 });
         } catch (e) {
-            console.error('Fetch failed. Check that API key is valid and discord is up!')
+            console.error('Fetch failed. Check that API key is valid and discord is up!');
             res.sendStatus(501);
         }
     } else {
-        console.log("Discord message not posted because there is no provided Discord token.")
-        res.sendStatus(501)
+        console.log("Discord message not posted because there is no provided Discord token.");
+        res.sendStatus(501);
     }
 });
 
