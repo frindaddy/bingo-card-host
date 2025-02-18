@@ -11,9 +11,7 @@ function App() {
     const [cardTiles, setCardTiles] = useState([]);
     const [players, setPlayers] = useState([]);
     const [editMode, setEditMode] = useState(false);
-    const [selectedPlayerName, setSelectedPlayerName] = useState(['']);
-    const [discordEnabled, setDiscordEnabled] = useState(true);
-
+    
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
             .then((res) => {
@@ -27,7 +25,6 @@ function App() {
                             return res.data.squares[i-1];
                         }
                     });
-                    setSelectedPlayerName(res.data.displayName)
                     setCardTiles(tileMap);
                     setSelectedTiles(res.data.selectedTiles);
                 }
@@ -64,7 +61,6 @@ function App() {
     useEffect(()=>{
         if(cardName==='' && players !== undefined && players.length > 0) {
             setCardName(players[0][0]);
-            setSelectedPlayerName(players[0][1]);
         }
     }, [players])
 
@@ -74,29 +70,10 @@ function App() {
         setEditMode(false);
     }
 
-    function sendDiscordMessage(message){
-        axios.post('api/discord_bot', {
-            payload: message
-        })
-            .catch(function (error) {
-                if(error.status && error.status === 501) {
-                    console.log('No discord bot configured! Preventing further requests.')
-                    setDiscordEnabled(false)
-                } else {
-                    console.log(error);
-                }
-            });
-    }
-
     function onTileClicked(index) {
         if(editMode){
-            setSelectedTiles(selectedTiles ^ (1 << index))
+            setSelectedTiles(selectedTiles ^ (1 << index));
             updateCard(cardName, cardYear, selectedTiles ^ (1 << index));
-            if(!(selectedTiles & (1 << index)) && discordEnabled){
-                sendDiscordMessage("# 🚨 BINGO ALERT 🚨\n\n"+
-                    "***" + cardTiles[index] + "*** on **" + selectedPlayerName + "'s** square has been checked!\n"+
-                    "-# Go to [the site](https://bingo.icebox.pw) to check it out!");
-            }
         }
     }
 
