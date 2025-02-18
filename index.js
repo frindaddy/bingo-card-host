@@ -80,7 +80,7 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
 
 router.post('/update_card/:year', (req, res, next) => {
     if (req.params.year && req.body && validDBs.includes(req.params.year)) {
-        getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then( r => res.sendStatus(200));
+        getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then(r => res.sendStatus(200));
     } else {
         res.sendStatus(400);
     }
@@ -97,11 +97,11 @@ router.post('/discord_bot', (req, res, next) => {
             body: JSON.stringify(data),
         })
         .then((response) => {
-            if (!response.ok) {
+            if(!response.ok) {
                 console.log("Error sending Discord message: "+response)
                 res.sendStatus(500);
             } else {
-                res.sendStatus(200)
+                res.sendStatus(200);
             }
         })
         .catch((error) => {
