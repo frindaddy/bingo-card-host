@@ -89,25 +89,30 @@ router.post('/update_card/:year', (req, res, next) => {
 router.post('/discord_bot', (req, res, next) => {
     if((DISCORD_WEBHOOK !== undefined) && req.body){
         const data = typeof req.body.payload === 'string' ? { content: req.body.payload } : req.body.payload;
-        fetch(DISCORD_WEBHOOK, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then((response) => {
-            if (!response.ok) {
-                console.log("Error sending Discord message: "+response)
-                res.sendStatus(500);
-            } else {
-                res.sendStatus(200)
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-            res.sendStatus(500);
-        });
+        try {
+            fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        console.log("Error sending Discord message: "+response)
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(200)
+                    }
+                })
+                .catch((error) => {
+                    console.error(error)
+                    res.sendStatus(500);
+                });
+        } catch (e) {
+            console.error('Fetch failed. Check that API key is valid and discord is up!')
+            res.sendStatus(501);
+        }
     } else {
         console.log("Discord message not posted because there is no provided Discord token.")
         res.sendStatus(501)
