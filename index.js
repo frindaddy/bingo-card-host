@@ -93,7 +93,7 @@ router.post('/update_card/:year', (req, res, next) => {
         if(DISCORD_WEBHOOK !== undefined) {
             getJsonDB(req.params.year).getData('/' + req.body.name + '/selectedTiles').then((oldSelectedTiles) => {
                 let newSelectedTiles = req.body.selectedTiles
-                if(oldSelectedTiles !== newSelectedTiles){
+                if(oldSelectedTiles < newSelectedTiles){
                     messageBot(req.params.year, req.body.name, oldSelectedTiles, newSelectedTiles);
                 }
                 getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', newSelectedTiles).then(r => res.sendStatus(200));
