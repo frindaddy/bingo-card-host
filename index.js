@@ -19,6 +19,7 @@ const db2025 = new JsonDB(new Config(JSON_DIR+"2025", true, true, '/'));
 
 validateDB('2024');
 validateDB('2025');
+validateBotWebhook();
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -56,6 +57,14 @@ function validateDB(year){
     })
 }
 
+function validateBotWebhook() {
+    if(DISCORD_WEBHOOK !== undefined){
+        console.log('Webhook detected. Server will attempt to send Discord bot messages.');
+    } else {
+        console.log('No webhook detected. No Discord bot messages will be attempted.');
+    }
+}
+
 router.get('/bingo_card/players/:year',  (req, res, next) => {
     res.json({players: players[req.params.year]});
 });
@@ -79,20 +88,50 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
 });
 
 router.post('/update_card/:year', (req, res, next) => {
-    if (req.params.year && req.body && validDBs.includes(req.params.year)) {
-        if(players[req.params.year].map(player =>  {return player[0]}).includes(req.body.name)){
-            getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then(r => res.sendStatus(200));
+    if(validUpdateRequest(req)){
+        //Update card function if discord is enabled. Timing on calls is important.
+        if(DISCORD_WEBHOOK !== undefined) {
+            getJsonDB(req.params.year).getData('/' + req.body.name + '/selectedTiles').then((oldSelectedTiles) => {
+                let newSelectedTiles = req.body.selectedTiles
+                if(oldSelectedTiles !== newSelectedTiles){
+                    messageBot(req.params.year, req.body.name, oldSelectedTiles, newSelectedTiles);
+                }
+                getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', newSelectedTiles).then(r => res.sendStatus(200));
+            });
         } else {
-            res.sendStatus(400);
+            //Regular update call if there is no discord bot
+            getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then(r => res.sendStatus(200));
         }
     } else {
         res.sendStatus(400);
     }
 });
 
-router.post('/discord_bot', (req, res, next) => {
-    if((DISCORD_WEBHOOK !== undefined) && req.body){
-        const data = typeof req.body.payload === 'string' ? { content: req.body.payload } : req.body.payload;
+function validUpdateRequest(req) {
+    let isYearValid = req.params.year && req.body && validDBs.includes(req.params.year);
+    let doesPlayerExist = players[req.params.year].map(player =>  {return player[0]}).includes(req.body.name);
+    return isYearValid && doesPlayerExist;
+}
+
+function messageBot(year, name, oldSelectedTiles, newSelectedTiles){
+    getJsonDB(year).getData('/'+ name).then((playerCard) => {
+        let toggledSquareIndex = Math.log2(oldSelectedTiles ^ newSelectedTiles);
+        sendDiscordMessage(getTileText(playerCard, toggledSquareIndex), playerCard.displayName);
+    });
+}
+
+function getTileText(card, tileIndex){
+    if(tileIndex < 12) return card.squares[tileIndex];
+    if(tileIndex === 12) return card.freespace;
+    if(tileIndex > 12) return card.squares[tileIndex-1];
+}
+
+function sendDiscordMessage(markedTileText, displayName){
+    if(DISCORD_WEBHOOK !== undefined){
+        const message = "# 🚨 BINGO ALERT 🚨\n\n"+
+                    "***" + markedTileText + "*** on **" + displayName + "'s** card has been checked!\n"+
+                    "-# Go to [the site](https://bingo.icebox.pw) to check it out!";
+        const data = typeof message === 'string' ? { content: message } : message;
         try {
             fetch(DISCORD_WEBHOOK, {
                 method: 'POST',
@@ -103,25 +142,17 @@ router.post('/discord_bot', (req, res, next) => {
             })
                 .then((response) => {
                     if (!response.ok) {
-                        console.log("Error sending Discord message: "+response);
-                        res.sendStatus(500);
-                    } else {
-                        res.sendStatus(200);
+                        console.error("Error sending Discord message: "+response);
                     }
                 })
                 .catch((error) => {
                     console.error(error);
-                    res.sendStatus(500);
                 });
         } catch (e) {
-            console.error('Fetch failed. Check that API key is valid and discord is up!');
-            res.sendStatus(501);
+            console.error('Webhook failed. Check that API key is valid and Discord is up!');
         }
-    } else {
-        console.log("Discord message not posted because there is no provided Discord token.");
-        res.sendStatus(501);
     }
-});
+}
 
 app.use('/api', router);
 
