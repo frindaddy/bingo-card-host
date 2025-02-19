@@ -114,20 +114,19 @@ function validUpdateRequest(req) {
 }
 
 function messageBot(year, name, oldSelectedTiles, newSelectedTiles){
-    getJsonDB(year).getData('/'+ name +'/displayName').then((displayName) => {
-        getJsonDB(year).getData('/' + name + getTileTextPath(Math.log2(oldSelectedTiles ^ newSelectedTiles))).then((markedTileText) => {
-            sendDiscordMessage(markedTileText, displayName);
-        });
+    getJsonDB(year).getData('/'+ name).then((playerCard) => {
+        sendDiscordMessage(getTileText(playerCard, Math.log2(oldSelectedTiles ^ newSelectedTiles)), playerCard.displayName);
     });
 }
 
-function getTileTextPath(tileIndex){
-    if(tileIndex < 12) return ("/squares["+tileIndex+"]");
-    if(tileIndex === 12) return "/freespace";
-    if(tileIndex > 12) return ("/squares["+(tileIndex-1)+"]");
+function getTileText(card, tileIndex){
+    if(tileIndex < 12) return card.squares[tileIndex];
+    if(tileIndex === 12) return card.freespace;
+    if(tileIndex > 12) return card.squares[tileIndex-1];
 }
 
 function sendDiscordMessage(markedTileText, displayName){
+    console.log(markedTileText, displayName);
     if(DISCORD_WEBHOOK !== undefined){
         message = "# 🚨 BINGO ALERT 🚨\n\n"+
                     "***" + markedTileText + "*** on **" + displayName + "'s** card has been checked!\n"+
