@@ -115,7 +115,8 @@ function validUpdateRequest(req) {
 
 function messageBot(year, name, oldSelectedTiles, newSelectedTiles){
     getJsonDB(year).getData('/'+ name).then((playerCard) => {
-        sendDiscordMessage(getTileText(playerCard, Math.log2(oldSelectedTiles ^ newSelectedTiles)), playerCard.displayName);
+        let toggledSquareIndex = Math.log2(oldSelectedTiles ^ newSelectedTiles);
+        sendDiscordMessage(getTileText(playerCard, toggledSquareIndex), playerCard.displayName);
     });
 }
 
@@ -126,7 +127,6 @@ function getTileText(card, tileIndex){
 }
 
 function sendDiscordMessage(markedTileText, displayName){
-    console.log(markedTileText, displayName);
     if(DISCORD_WEBHOOK !== undefined){
         message = "# 🚨 BINGO ALERT 🚨\n\n"+
                     "***" + markedTileText + "*** on **" + displayName + "'s** card has been checked!\n"+
