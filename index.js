@@ -67,7 +67,7 @@ function validateBotWebhook() {
     }
 }
 
-function isCurrentYear(req) {
+function reqYearIsCurrentYear(req) {
     if(req.params.year == currentYear) {
         return true;
     } else {
@@ -98,7 +98,7 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
 });
 
 router.post('/update_card/:year', (req, res, next) => {
-    if(validUpdateRequest(req) && isCurrentYear(req)){
+    if(validUpdateRequest(req) && reqYearIsCurrentYear(req)){
         //Update card function if discord is enabled. Timing on calls is important.
         if(DISCORD_WEBHOOK !== undefined) {
             getJsonDB(req.params.year).getData('/' + req.body.name + '/selectedTiles').then((oldSelectedTiles) => {
@@ -112,7 +112,7 @@ router.post('/update_card/:year', (req, res, next) => {
             //Regular update call if there is no discord bot
             getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then(r => res.sendStatus(200));
         }
-    } else if(validUpdateRequest(req) && !isCurrentYear(req)) {
+    } else if(validUpdateRequest(req) && !reqYearIsCurrentYear(req)) {
         res.sendStatus(403);
     } else {
         res.sendStatus(400);
