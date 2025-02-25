@@ -151,7 +151,7 @@ function App() {
                     </tr>
                 </tbody>
             </table>}
-            <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
+            <div style={{display:(cardYear == currentYear ? "flex":"none"), justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
                 <div style={{paddingRight: "15px", display: 'flex', alignItems: 'center'}}>{editMode ? "Editing Enabled":"Card Locked"}</div>
                 <label class="switch">
                     <input type="checkbox" checked={!editMode} onClick={()=>{setEditMode(!editMode)}}></input>

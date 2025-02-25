@@ -17,6 +17,8 @@ let players = {}
 const db2024 = new JsonDB(new Config(JSON_DIR+"2024", true, true, '/'));
 const db2025 = new JsonDB(new Config(JSON_DIR+"2025", true, true, '/'));
 
+const currentYear = new Date().getFullYear();
+
 validateDB('2024');
 validateDB('2025');
 validateBotWebhook();
@@ -65,6 +67,14 @@ function validateBotWebhook() {
     }
 }
 
+function isCurrentYear(req) {
+    if(req.params.year == currentYear) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 router.get('/bingo_card/players/:year',  (req, res, next) => {
     res.json({players: players[req.params.year]});
 });
@@ -88,7 +98,7 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
 });
 
 router.post('/update_card/:year', (req, res, next) => {
-    if(validUpdateRequest(req)){
+    if(validUpdateRequest(req) && isCurrentYear(req)){
         //Update card function if discord is enabled. Timing on calls is important.
         if(DISCORD_WEBHOOK !== undefined) {
             getJsonDB(req.params.year).getData('/' + req.body.name + '/selectedTiles').then((oldSelectedTiles) => {
@@ -102,6 +112,8 @@ router.post('/update_card/:year', (req, res, next) => {
             //Regular update call if there is no discord bot
             getJsonDB(req.params.year).push('/' + req.body.name + '/selectedTiles', req.body.selectedTiles).then(r => res.sendStatus(200));
         }
+    } else if(validUpdateRequest(req) && !isCurrentYear(req)) {
+        res.sendStatus(403);
     } else {
         res.sendStatus(400);
     }
