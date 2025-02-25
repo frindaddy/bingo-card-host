@@ -1,4 +1,5 @@
 import './format/App.css';
+import './format/Slider.css';
 import axios from "axios";
 import React, { useState, useEffect, cloneElement } from "react";
 
