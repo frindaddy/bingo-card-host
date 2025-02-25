@@ -68,11 +68,7 @@ function validateBotWebhook() {
 }
 
 function reqYearIsCurrentYear(req) {
-    if(req.params.year == currentYear) {
-        return true;
-    } else {
-        return false;
-    }
+    return req.params.year === currentYear;
 }
 
 router.get('/bingo_card/players/:year',  (req, res, next) => {
