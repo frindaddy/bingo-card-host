@@ -15,7 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^8.2.2",
-    "create-react-app": "^5.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.18.2",
     "node-json-db": "^2.3.0",
