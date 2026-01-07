@@ -101,9 +101,10 @@ function App() {
         <>
             <div className='title-container'>
                 <span className='title'>Bingo Cards</span>
-                <select onChange={changeYear} defaultValue="2025">
+                <select onChange={changeYear} defaultValue="2026">
                     <option value={'2024'}>2024</option>
                     <option value={'2025'}>2025</option>
+                    <option value={'2026'}>2026</option>
                 </select>
             </div>
             <div className="card-selector">
