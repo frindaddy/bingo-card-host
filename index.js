@@ -3,6 +3,7 @@ const path = require("path");
 const {JsonDB, Config} = require("node-json-db");
 const router = express.Router();
 const app = express();
+const fs = require('fs');
 require('dotenv').config();
 
 const port = process.env.PORT || 5000;
@@ -11,16 +12,36 @@ const JSON_DIR = process.env.JSON_DIR || './client/src/cards/';
 
 const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK;
 
-let validDBs = []
-let players = {}
+const currentDate = new Date();
 
-const db2024 = new JsonDB(new Config(JSON_DIR+"2024", true, true, '/'));
-const db2025 = new JsonDB(new Config(JSON_DIR+"2025", true, true, '/'));
+let validDBs = [];
+let players = {};
 
-const currentYear = new Date().getFullYear();
+const cardDBs = {};
 
-validateDB('2024');
-validateDB('2025');
+try {
+    const filenames = fs.readdirSync(JSON_DIR);
+    filenames.forEach(file => {
+        if (path.extname(file) !== '.json') {
+            console.log(`Skipping non-JSON file: ${file}`);
+            return;
+        } else {
+            const year = path.basename(file, '.json');
+            cardDBs[year] = new JsonDB(new Config(JSON_DIR+year, true, true, '/'));
+        }
+    });
+} catch (e) {
+    console.error("Error reading JSON directory: ", e);
+}
+
+Object.keys(cardDBs).forEach((year) => {
+    try {
+        validateDB(year);
+    } catch (e) {
+        console.error("Error validating DB for year " + year + ": ", e);
+    }
+});
+
 validateBotWebhook();
 
 app.use((req, res, next) => {
@@ -34,11 +55,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, './client/build')));
 
 function getJsonDB(year) {
-    if(year === '2025'){
-        return db2025
-    } else {
-        return db2024
-    }
+    return cardDBs[year];
 }
 
 function validateDB(year){
@@ -68,7 +85,7 @@ function validateBotWebhook() {
 }
 
 function reqYearIsCurrentYear(req) {
-    return req.params.year == currentYear;
+    return req.params.year == currentDate.getFullYear();
 }
 
 router.get('/bingo_card/players/:year',  (req, res, next) => {
@@ -91,6 +108,56 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
     } else {
         res.sendStatus(400);
     }
+});
+
+router.get('/currentServerDate', (req, res, next) => {
+    checkCardExistsForYear(currentDate.getFullYear()).then(()=>{
+        res.json({currentServerYear: currentDate.getFullYear(),
+            currentServerMonth: currentDate.getMonth(),
+            currentServerDay: currentDate.getDate()
+        });
+    }, ()=>{
+        res.sendStatus(300);
+    });
+});
+
+function checkCardExistsForYear(year) {
+    return new Promise(async (resolve, reject) => {
+        if (!validDBs.includes(year + '')) {
+            try {
+                const templateCard = {
+                    "person1": {
+                        "displayName": "It's a New Year!",
+                        "selectedTiles": 0,
+                        "freespace": "Send your cards to the server admin for upload!",
+                        "squares": [
+                            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+                        ]
+                    }
+                };
+                try {
+                    await fs.writeFileSync(JSON_DIR + year + '.json', JSON.stringify(templateCard, null, 4));
+                    resolve();
+                } catch (e) {
+                    console.error("Error creating new card " + year + ".json: ", e);
+                    reject();
+                }
+                let newCard = new JsonDB(new Config(JSON_DIR + year, true, true, '/'));
+                validateDB(year + '');
+                cardDBs[year] = newCard;
+                validDBs.push(year);
+            } catch (e) {
+                console.error("Error creating DB for year " + year + ": ", e);
+                reject();
+            }
+        } else {
+            resolve();
+        }
+    })
+}
+
+router.get('/availableCardYears', (req, res, next) => {
+    res.json({years: validDBs.sort()});
 });
 
 router.post('/update_card/:year', (req, res, next) => {

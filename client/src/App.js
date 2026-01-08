@@ -3,9 +3,12 @@ import './format/Slider.css';
 import axios from "axios";
 import React, { useState, useEffect, cloneElement } from "react";
 
-const currentYear = new Date().getFullYear();
+const footnoteYear = new Date().getFullYear();
 
 function App() {
+    const [currentServerYear, setCurrentServerYear] = useState(new Date().getFullYear());
+    const [currentServerMonth, setCurrentServerMonth] = useState(new Date().getMonth());
+    const [availbleCardYears, setAvailableCardYears] = useState([]);
     const [cardYear, setCardYear] = useState(new Date().getFullYear());
     const [selectedTiles, setSelectedTiles] = useState(0);
     const [cardName, setCardName] = useState('');
@@ -55,6 +58,37 @@ function App() {
     }
 
     useEffect(() => {
+        async function fetchCurrentServerDate() {
+            try {
+                const response = await fetch('/api/currentServerDate');
+                if (response.data) {
+                    setCurrentServerYear(response.data.currentServerYear);
+                    setCardYear(response.data.currentServerYear);
+                    setCurrentServerMonth(response.data.currentServerMonth);
+                    setEditMode(false);
+                }
+            } catch (error) {
+                console.error('Error fetching current server date: ', error);
+            }
+        }
+        fetchCurrentServerDate();
+    }, []);
+
+    useEffect(() => {
+        async function fetchCardYears() {
+            try {
+                const response = await axios.get('/api/availableCardYears');
+                if (response.data && response.data.years) {
+                    setAvailableCardYears(response.data.years);
+                } 
+            } catch (error) {
+                console.error('Error fetching available card years: ', error);
+            }
+        }
+        fetchCardYears();
+    }, []);
+
+    useEffect(() => {
         getPlayers(cardYear+'');
         if(cardName !== '') getCardStatus(cardName);
     }, [cardName, cardYear]);
@@ -85,7 +119,7 @@ function App() {
     }
 
     function getNavBarElement(internal_name, display_name) {
-        return <p className={cardName === internal_name ? 'selected' : ''}
+        return <p key={internal_name} className={cardName === internal_name ? 'selected' : ''}
                   onClick={() => {
                       switchCard(internal_name);
                   }}>{display_name}</p>
@@ -97,14 +131,27 @@ function App() {
         setEditMode(false);
     }
 
+    function isCardEditable(year) {
+        if(year == currentServerYear){
+            return true;
+        } else if (year == currentServerYear - 1 && currentServerMonth == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     return (
         <>
             <div className='title-container'>
                 <span className='title'>Bingo Cards</span>
-                <select onChange={changeYear} defaultValue="2025">
-                    <option value={'2024'}>2024</option>
-                    <option value={'2025'}>2025</option>
-                </select>
+                {availbleCardYears.length > 0 && (
+                    <select onChange={changeYear} value={cardYear}>
+                        {availbleCardYears.map((year) => (
+                            <option key={year} value={year}>{year}</option>
+                        ))}
+                    </select>
+                )}                
             </div>
             <div className="card-selector">
                 {players !== undefined && players.map(player =>{
@@ -151,15 +198,15 @@ function App() {
                     </tr>
                 </tbody>
             </table>}
-            {cardYear == currentYear && <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
+            {isCardEditable(cardYear) && <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
                 <div style={{paddingRight: "15px", display: 'flex', alignItems: 'center'}}>{editMode ? "Editing Enabled":"Card Locked"}</div>
-                <label class="switch">
-                    <input type="checkbox" checked={!editMode} onClick={()=>{setEditMode(!editMode)}}></input>
-                    <span class="slider round"></span>
+                <label className="switch">
+                    <input type="checkbox" checked={!editMode} onChange={()=>{setEditMode(!editMode)}}></input>
+                    <span className="slider round"></span>
                 </label>
             </div>}
             <footer style={{textAlign: "center", fontSize: "11px", color: "darkgray"}}>
-            <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
+            <p>©{footnoteYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.</p>
             </footer>
         </>
