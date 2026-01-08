@@ -93,6 +93,10 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
     }
 });
 
+router.get('/currentServerYear', (req, res, next) => {
+    res.json({currentServerYear: currentYear});
+});
+
 router.post('/update_card/:year', (req, res, next) => {
     if(validUpdateRequest(req) && reqYearIsCurrentYear(req)){
         //Update card function if discord is enabled. Timing on calls is important.

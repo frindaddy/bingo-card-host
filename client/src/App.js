@@ -3,9 +3,10 @@ import './format/Slider.css';
 import axios from "axios";
 import React, { useState, useEffect, cloneElement } from "react";
 
-const currentYear = new Date().getFullYear();
+const footnoteYear = new Date().getFullYear();
 
 function App() {
+    const [currentServerYear, setCurrentServerYear] = useState(new Date().getFullYear());
     const [cardYear, setCardYear] = useState(new Date().getFullYear());
     const [selectedTiles, setSelectedTiles] = useState(0);
     const [cardName, setCardName] = useState('');
@@ -55,6 +56,23 @@ function App() {
     }
 
     useEffect(() => {
+        async function fetchCurrentServerYear() {
+            try {
+                const response = await fetch('/api/currentServerYear');
+                if (response.ok) {
+                    const data = await response.json();
+                    setCurrentServerYear(data.currentServerYear);
+                    setCardYear(data.currentServerYear);
+                    setEditMode(false);
+                }
+            } catch (error) {
+                console.error('Error fetching current server year:', error);
+            }
+        }
+        fetchCurrentServerYear();
+    }, []);
+
+    useEffect(() => {
         getPlayers(cardYear+'');
         if(cardName !== '') getCardStatus(cardName);
     }, [cardName, cardYear]);
@@ -101,7 +119,7 @@ function App() {
         <>
             <div className='title-container'>
                 <span className='title'>Bingo Cards</span>
-                <select onChange={changeYear} defaultValue="2025">
+                <select onChange={changeYear} defaultValue={currentServerYear}>
                     <option value={'2024'}>2024</option>
                     <option value={'2025'}>2025</option>
                 </select>
@@ -151,7 +169,7 @@ function App() {
                     </tr>
                 </tbody>
             </table>}
-            {cardYear == currentYear && <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
+            {cardYear == currentServerYear && <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
                 <div style={{paddingRight: "15px", display: 'flex', alignItems: 'center'}}>{editMode ? "Editing Enabled":"Card Locked"}</div>
                 <label class="switch">
                     <input type="checkbox" checked={!editMode} onClick={()=>{setEditMode(!editMode)}}></input>
@@ -159,11 +177,21 @@ function App() {
                 </label>
             </div>}
             <footer style={{textAlign: "center", fontSize: "11px", color: "darkgray"}}>
-            <p>©{currentYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
+            <p>©{footnoteYear} by Jacob Thweatt and Trevor Sides. All Rights Reserved.<br/>
                 Powered by our pure genius.</p>
             </footer>
         </>
   );
 }
+
+// export async function getCurrentServerYear() {
+//     const res = await fetch('/api/currentServerYear');
+//     if (res.ok) {
+//         const data = await res.json();
+//         return data.currentServerYear;
+//     } else {
+//         throw new Error('Failed to fetch current server year');
+//     }
+// }
 
 export default App;
