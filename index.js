@@ -111,43 +111,47 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
 });
 
 router.get('/currentServerDate', (req, res, next) => {
-    checkCardExistsForYear(currentDate.getFullYear());
-    res.json({currentServerYear: currentDate.getFullYear(),
-                currentServerMonth: currentDate.getMonth(),
-                currentServerDay: currentDate.getDate()
+    checkCardExistsForYear(currentDate.getFullYear()).then(()=>{
+        res.json({currentServerYear: currentDate.getFullYear(),
+            currentServerMonth: currentDate.getMonth(),
+            currentServerDay: currentDate.getDate()
+        });
     });
 });
 
-function checkCardExistsForYear(year){
-    if(!validDBs.includes(year+'')){
-        try {
-            createNewYearDB(year);
-            let newCard = new JsonDB(new Config(JSON_DIR+year, true, true, '/'));
-            validateDB(year+'');
-            cardDBs[year] = newCard;
-            validDBs.push(year);
-        } catch (e) {
-            console.error("Error creating DB for year " + year + ": ", e);
+function checkCardExistsForYear(year) {
+    return new Promise(async (resolve, reject) => {
+        if (!validDBs.includes(year + '')) {
+            try {
+                const templateCard = {
+                    "person1": {
+                        "displayName": "It's a New Year!",
+                        "selectedTiles": 0,
+                        "freespace": "Send your cards to the server admin for upload!",
+                        "squares": [
+                            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
+                        ]
+                    }
+                };
+                try {
+                    await fs.writeFileSync(JSON_DIR + year + '.json', JSON.stringify(templateCard, null, 4));
+                    resolve();
+                } catch (e) {
+                    console.error("Error creating new card " + year + ".json: ", e);
+                    reject();
+                }
+                let newCard = new JsonDB(new Config(JSON_DIR + year, true, true, '/'));
+                validateDB(year + '');
+                cardDBs[year] = newCard;
+                validDBs.push(year);
+            } catch (e) {
+                console.error("Error creating DB for year " + year + ": ", e);
+                reject();
+            }
+        } else {
+            resolve();
         }
-    }
-}
-
-function createNewYearDB(year){
-    const templateCard = {
-        "person1":{
-        "displayName": "It's a New Year!",
-        "selectedTiles": 0,
-        "freespace": "Send your cards to the server admin for upload!",
-        "squares":[
-            "","","","","","","","","","","","","","","","","","","","","","","",""
-        ]
-        }
-    };
-    try {
-        fs.writeFileSync(JSON_DIR+year+'.json', JSON.stringify(templateCard, null, 4));
-    } catch (e) {
-        console.error("Error creating new card " + year + ".json: ", e);
-    }
+    })
 }
 
 router.get('/availableCardYears', (req, res, next) => {
