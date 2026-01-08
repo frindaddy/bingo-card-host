@@ -116,6 +116,8 @@ router.get('/currentServerDate', (req, res, next) => {
             currentServerMonth: currentDate.getMonth(),
             currentServerDay: currentDate.getDate()
         });
+    }, ()=>{
+        res.sendStatus(300);
     });
 });
 
