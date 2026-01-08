@@ -60,11 +60,10 @@ function App() {
         async function fetchCurrentServerDate() {
             try {
                 const response = await fetch('/api/currentServerDate');
-                if (response.ok) {
-                    const data = await response.json();
-                    setCurrentServerYear(data.currentServerYear);
-                    setCardYear(data.currentServerYear);
-                    setCurrentServerMonth(data.currentServerMonth);
+                if (response.data) {
+                    setCurrentServerYear(response.data.currentServerYear);
+                    setCardYear(response.data.currentServerYear);
+                    setCurrentServerMonth(response.data.currentServerMonth);
                     setEditMode(false);
                 }
             } catch (error) {
