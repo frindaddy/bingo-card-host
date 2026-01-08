@@ -119,7 +119,7 @@ function App() {
     }
 
     function getNavBarElement(internal_name, display_name) {
-        return <p className={cardName === internal_name ? 'selected' : ''}
+        return <p key={internal_name} className={cardName === internal_name ? 'selected' : ''}
                   onClick={() => {
                       switchCard(internal_name);
                   }}>{display_name}</p>
