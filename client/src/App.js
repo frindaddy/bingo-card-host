@@ -8,6 +8,7 @@ const footnoteYear = new Date().getFullYear();
 function App() {
     const [currentServerYear, setCurrentServerYear] = useState(new Date().getFullYear());
     const [currentServerMonth, setCurrentServerMonth] = useState(new Date().getMonth());
+    const [availbleCardYears, setAvailableCardYears] = useState([]);
     const [cardYear, setCardYear] = useState(new Date().getFullYear());
     const [selectedTiles, setSelectedTiles] = useState(0);
     const [cardName, setCardName] = useState('');
@@ -74,6 +75,20 @@ function App() {
     }, []);
 
     useEffect(() => {
+        async function fetchCardYears() {
+            try {
+                const response = await axios.get('/api/availableCardYears');
+                if (response.data && response.data.years) {
+                    setAvailableCardYears(response.data.years);
+                } 
+            } catch (error) {
+                console.error('Error fetching available card years: ', error);
+            }
+        }
+        fetchCardYears();
+    }, []);
+
+    useEffect(() => {
         getPlayers(cardYear+'');
         if(cardName !== '') getCardStatus(cardName);
     }, [cardName, cardYear]);
@@ -130,10 +145,13 @@ function App() {
         <>
             <div className='title-container'>
                 <span className='title'>Bingo Cards</span>
-                <select onChange={changeYear} value={cardYear}>
-                    <option value={'2024'}>2024</option>
-                    <option value={'2025'}>2025</option>
-                </select>
+                {availbleCardYears.length > 0 && (
+                    <select onChange={changeYear} value={cardYear}>
+                        {availbleCardYears.map((year) => (
+                            <option key={year} value={year}>{year}</option>
+                        ))}
+                    </select>
+                )}                
             </div>
             <div className="card-selector">
                 {players !== undefined && players.map(player =>{

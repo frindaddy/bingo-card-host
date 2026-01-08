@@ -150,6 +150,10 @@ function createNewYearDB(year){
     }
 }
 
+router.get('/availableCardYears', (req, res, next) => {
+    res.json({years: validDBs.sort()});
+});
+
 router.post('/update_card/:year', (req, res, next) => {
     if(validUpdateRequest(req) && reqYearIsCurrentYear(req)){
         //Update card function if discord is enabled. Timing on calls is important.
