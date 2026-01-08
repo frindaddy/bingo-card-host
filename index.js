@@ -17,7 +17,7 @@ let players = {}
 const db2024 = new JsonDB(new Config(JSON_DIR+"2024", true, true, '/'));
 const db2025 = new JsonDB(new Config(JSON_DIR+"2025", true, true, '/'));
 
-const currentYear = new Date().getFullYear();
+const currentDate = new Date();
 
 validateDB('2024');
 validateDB('2025');
@@ -68,7 +68,7 @@ function validateBotWebhook() {
 }
 
 function reqYearIsCurrentYear(req) {
-    return req.params.year == currentYear;
+    return req.params.year == currentDate.getFullYear();
 }
 
 router.get('/bingo_card/players/:year',  (req, res, next) => {
@@ -93,8 +93,11 @@ router.get('/bingo_card/:year_name',  (req, res, next) => {
     }
 });
 
-router.get('/currentServerYear', (req, res, next) => {
-    res.json({currentServerYear: currentYear});
+router.get('/currentServerDate', (req, res, next) => {
+    res.json({currentServerYear: currentDate.getFullYear(),
+                currentServerMonth: currentDate.getMonth(),
+                currentServerDay: currentDate.getDate()
+    });
 });
 
 router.post('/update_card/:year', (req, res, next) => {

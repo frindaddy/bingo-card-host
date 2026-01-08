@@ -7,6 +7,7 @@ const footnoteYear = new Date().getFullYear();
 
 function App() {
     const [currentServerYear, setCurrentServerYear] = useState(new Date().getFullYear());
+    const [currentServerMonth, setCurrentServerMonth] = useState(new Date().getMonth());
     const [cardYear, setCardYear] = useState(new Date().getFullYear());
     const [selectedTiles, setSelectedTiles] = useState(0);
     const [cardName, setCardName] = useState('');
@@ -56,20 +57,21 @@ function App() {
     }
 
     useEffect(() => {
-        async function fetchCurrentServerYear() {
+        async function fetchCurrentServerDate() {
             try {
-                const response = await fetch('/api/currentServerYear');
+                const response = await fetch('/api/currentServerDate');
                 if (response.ok) {
                     const data = await response.json();
                     setCurrentServerYear(data.currentServerYear);
                     setCardYear(data.currentServerYear);
+                    setCurrentServerMonth(data.currentServerMonth);
                     setEditMode(false);
                 }
             } catch (error) {
-                console.error('Error fetching current server year:', error);
+                console.error('Error fetching current server date: ', error);
             }
         }
-        fetchCurrentServerYear();
+        fetchCurrentServerDate();
     }, []);
 
     useEffect(() => {
@@ -113,6 +115,16 @@ function App() {
         setCardName('')
         setCardYear(e.target.value)
         setEditMode(false);
+    }
+
+    function isCardEditable(year) {
+        if(year == currentServerYear){
+            return true;
+        } else if (year == currentServerYear - 1 && currentServerMonth == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     return (
@@ -169,7 +181,7 @@ function App() {
                     </tr>
                 </tbody>
             </table>}
-            {cardYear == currentServerYear && <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
+            {isCardEditable(cardYear) && <div style={{display:"flex", justifyContent: 'center', paddingTop: "20px", paddingBottom: "10px"}}>
                 <div style={{paddingRight: "15px", display: 'flex', alignItems: 'center'}}>{editMode ? "Editing Enabled":"Card Locked"}</div>
                 <label class="switch">
                     <input type="checkbox" checked={!editMode} onClick={()=>{setEditMode(!editMode)}}></input>
