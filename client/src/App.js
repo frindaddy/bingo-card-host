@@ -184,14 +184,4 @@ function App() {
   );
 }
 
-// export async function getCurrentServerYear() {
-//     const res = await fetch('/api/currentServerYear');
-//     if (res.ok) {
-//         const data = await res.json();
-//         return data.currentServerYear;
-//     } else {
-//         throw new Error('Failed to fetch current server year');
-//     }
-// }
-
 export default App;
