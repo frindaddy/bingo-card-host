@@ -15,6 +15,11 @@ function App() {
     const [cardTiles, setCardTiles] = useState([]);
     const [players, setPlayers] = useState([]);
     const [editMode, setEditMode] = useState(false);
+    const [theme, setTheme] = useState('dark');
+
+    useEffect(() => {
+        document.documentElement.dataset.theme = theme;
+    }, [theme]);
     
     const getCardStatus = (name) => {
         axios.get('api/bingo_card/'+cardYear+name)
@@ -113,7 +118,7 @@ function App() {
     }
 
     function getTableCell(index) {
-        return <td style={{color: (selectedTiles & (1 << index)) > 0 ? "red":"white"}} onClick={() => {
+        return <td className={(selectedTiles & (1 << index)) > 0 ? 'selected-tile' : ''} onClick={() => {
             onTileClicked(index)
         }}><div className="square">{cardTiles[index]}</div></td>
     }
@@ -151,7 +156,15 @@ function App() {
                             <option key={year} value={year}>{year}</option>
                         ))}
                     </select>
-                )}                
+                )}
+                <button
+                    type="button"
+                    className="theme-toggle"
+                    aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                >
+                    {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+                </button>
             </div>
             <div className="card-selector">
                 {players !== undefined && players.map(player =>{

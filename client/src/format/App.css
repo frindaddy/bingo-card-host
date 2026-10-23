@@ -23,12 +23,25 @@
 }
 
 html {
-  background-color: #1D1E1F;
+  --background-color: #1D1E1F;
+  --text-color: white;
+  --tile-color: white;
+  --border-color: darkgray;
+  --divider-color: white;
+  background-color: var(--background-color);
+}
+
+html[data-theme='light'] {
+  --background-color: white;
+  --text-color: #1D1E1F;
+  --tile-color: #1D1E1F;
+  --border-color: #666;
+  --divider-color: #1D1E1F;
 }
 
 body {
   max-width: 500px;
-  color: white;
+  color: var(--text-color);
   margin-right: auto;
   margin-left: auto;
   font-family: Roboto;
@@ -42,10 +55,15 @@ body {
 }
 
 .bingo-card > tbody > tr > td {
-  border: 1px solid darkgray;
+  border: 1px solid var(--border-color);
   text-align: center;
   width: 100px;
   vertical-align: middle;
+  color: var(--tile-color);
+}
+
+.bingo-card > tbody > tr > td.selected-tile {
+  color: red;
 }
 
 .card-selector {
@@ -83,6 +101,16 @@ select {
   margin: 0;
 }
 
+button.theme-toggle {
+  font-family: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 6px 8px;
+  margin-left: 10px;
+}
+
 .title {
   margin-right: 0;
   font-size: 30px;
@@ -99,6 +127,6 @@ select {
 
 hr {
   max-width: 95%;
-  border-top: 1px solid white;
+  border-top: 1px solid var(--divider-color);
   margin-bottom: 16px;
 }
